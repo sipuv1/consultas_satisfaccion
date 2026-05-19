@@ -1,0 +1,19 @@
+{
+  "name": "eticos_supabase_integracion",
+  "version": "1.0.0",
+  "description": "Este proyecto incluye una integración profesional con Supabase para almacenar respuestas de satisfacción en tiempo real.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.106.0"
+  }
+}

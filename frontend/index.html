@@ -1,0 +1,252 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ETICOS | Encuesta</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<style>
+
+body{
+    font-family:Arial;
+    background:#f4f7ff;
+    padding:30px;
+}
+
+.card{
+    background:white;
+    max-width:700px;
+    margin:auto;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+h1{
+    color:#0d47a1;
+    text-align:center;
+}
+
+.question{
+    margin-top:30px;
+}
+
+.option{
+    background:#eef3ff;
+    padding:12px;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+button{
+    width:100%;
+    padding:18px;
+    background:#0d47a1;
+    color:white;
+    border:none;
+    border-radius:12px;
+    margin-top:30px;
+    cursor:pointer;
+    font-size:18px;
+}
+
+textarea{
+    width:100%;
+    padding:15px;
+    border-radius:10px;
+}
+
+.logo{
+    height:100px;
+    border:2px dashed #0d47a1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:20px;
+    border-radius:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="logo">
+ESPACIO PARA LOGO ETICOS
+</div>
+
+<h1>¿Cómo fue tu experiencia?</h1>
+
+<p>Tu opinión nos ayuda a mejorar nuestro servicio.</p>
+
+<form id="encuestaForm">
+
+<div class="question">
+
+<h3>¿Cómo calificas la atención recibida?</h3>
+
+<div class="option">
+<input type="radio" name="calificacion" value="1" required>
+⭐ Muy mala
+</div>
+
+<div class="option">
+<input type="radio" name="calificacion" value="2">
+⭐⭐ Mala
+</div>
+
+<div class="option">
+<input type="radio" name="calificacion" value="3">
+⭐⭐⭐ Regular
+</div>
+
+<div class="option">
+<input type="radio" name="calificacion" value="4">
+⭐⭐⭐⭐ Buena
+</div>
+
+<div class="option">
+<input type="radio" name="calificacion" value="5">
+⭐⭐⭐⭐⭐ Excelente
+</div>
+
+</div>
+
+<div class="question">
+
+<h3>¿El tiempo de atención fue adecuado?</h3>
+
+<div class="option">
+<input type="radio" name="tiempo" value="Si" required>
+Sí
+</div>
+
+<div class="option">
+<input type="radio" name="tiempo" value="No">
+No
+</div>
+
+</div>
+
+<div class="question">
+
+<h3>¿El personal fue amable y claro?</h3>
+
+<div class="option">
+<input type="radio" name="amabilidad" value="Si" required>
+Sí
+</div>
+
+<div class="option">
+<input type="radio" name="amabilidad" value="Parcialmente">
+Parcialmente
+</div>
+
+<div class="option">
+<input type="radio" name="amabilidad" value="No">
+No
+</div>
+
+</div>
+
+<div class="question">
+
+<h3>¿Recomendarías nuestro servicio?</h3>
+
+<div class="option">
+<input type="radio" name="recomendaria" value="true" required>
+Sí
+</div>
+
+<div class="option">
+<input type="radio" name="recomendaria" value="false">
+No
+</div>
+
+</div>
+
+<div class="question">
+
+<h3>Déjanos un comentario</h3>
+
+<textarea id="comentario" rows="5"></textarea>
+
+</div>
+
+<button type="submit">
+Enviar evaluación
+</button>
+
+</form>
+
+</div>
+
+<script>
+
+const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
+const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
+
+const client = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+)
+
+document
+.getElementById('encuestaForm')
+.addEventListener('submit', async function(e){
+
+e.preventDefault()
+
+const calificacion =
+document.querySelector('input[name="calificacion"]:checked').value
+
+const tiempo =
+document.querySelector('input[name="tiempo"]:checked').value
+
+const amabilidad =
+document.querySelector('input[name="amabilidad"]:checked').value
+
+const recomendaria =
+document.querySelector('input[name="recomendaria"]:checked').value
+
+const comentario =
+document.getElementById('comentario').value
+
+const { data, error } = await client
+.from('respuestas')
+.insert([
+{
+    calificacion: calificacion,
+    tiempo_atencion: tiempo,
+    amabilidad: amabilidad,
+    recomendaria: recomendaria === 'true',
+    comentario: comentario
+}
+])
+
+if(error){
+
+    alert('Error guardando información')
+
+    console.log(error)
+
+}else{
+
+    alert('¡Gracias por tu opinión!')
+
+    document.getElementById('encuestaForm').reset()
+}
+
+})
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard ETICOS</title>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f1f5ff;
+    padding:30px;
+}
+
+.container{
+    max-width:1400px;
+    margin:auto;
+}
+
+/* MENU */
+
+.menu{
+    background:#0d47a1;
+    padding:18px 25px;
+    border-radius:20px;
+    margin-bottom:30px;
+    display:flex;
+    gap:20px;
+    align-items:center;
+}
+
+.menu a{
+    color:white;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:16px;
+}
+
+/* HEADER */
+
+.header{
+    background:white;
+    border-radius:30px;
+    padding:40px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    margin-bottom:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:20px;
+}
+
+.header h1{
+    font-size:42px;
+    color:#0d47a1;
+}
+
+.header p{
+    color:#666;
+    margin-top:10px;
+    font-size:18px;
+}
+
+.logo{
+    width:260px;
+    height:100px;
+    border:2px dashed #0d47a1;
+    border-radius:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#0d47a1;
+    font-weight:bold;
+}
+
+/* KPI CARDS */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:25px;
+    margin-bottom:30px;
+}
+
+.card{
+    background:white;
+    padding:30px;
+    border-radius:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card h2{
+    color:#666;
+    font-size:16px;
+}
+
+.card .value{
+    font-size:42px;
+    color:#0d47a1;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+/* CONTENT */
+
+.content{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:30px;
+    margin-bottom:30px;
+}
+
+.panel{
+    background:white;
+    padding:35px;
+    border-radius:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.panel h2{
+    color:#0d47a1;
+    margin-bottom:25px;
+}
+
+/* TRENDS */
+
+.trend{
+    margin-bottom:25px;
+}
+
+.trend-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+.bar{
+    width:100%;
+    height:18px;
+    background:#e5e7eb;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.bar-fill{
+    height:100%;
+    background:#0d47a1;
+    border-radius:20px;
+}
+
+/* RANKING */
+
+.ranking-item{
+    background:#f5f8ff;
+    padding:18px;
+    border-radius:18px;
+    margin-bottom:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+/* NEGATIVE COMMENTS */
+
+.comment{
+    background:#fff0f0;
+    border:1px solid #ffcccc;
+    padding:18px;
+    border-radius:18px;
+    margin-bottom:15px;
+}
+
+.comment strong{
+    color:#cc0000;
+}
+
+/* STATUS */
+
+.status{
+    margin-bottom:25px;
+}
+
+.status-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:10px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .content{
+        grid-template-columns:1fr;
+    }
+
+    .header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- MENU -->
+
+<nav class="menu">
+
+<a href="index.html">
+Encuesta
+</a>
+
+<a href="dashboard.html">
+Dashboard
+</a>
+
+</nav>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div>
+
+<h1>
+Dashboard ETICOS
+</h1>
+
+<p>
+Sistema de satisfacción y experiencia del usuario
+</p>
+
+</div>
+
+<div class="logo">
+ESPACIO PARA LOGO ETICOS
+</div>
+
+</div>
+
+<!-- KPI CARDS -->
+
+<div class="cards">
+
+<div class="card">
+<h2>Promedio satisfacción</h2>
+<div class="value" id="promedio">
+0 ⭐
+</div>
+</div>
+
+<div class="card">
+<h2>Total respuestas</h2>
+<div class="value" id="total">
+0
+</div>
+</div>
+
+<div class="card">
+<h2>Recomendación</h2>
+<div class="value" id="recomendacion">
+0%
+</div>
+</div>
+
+<div class="card">
+<h2>Comentarios negativos</h2>
+<div class="value" id="negativos">
+0%
+</div>
+</div>
+
+</div>
+
+<!-- CONTENT -->
+
+<div class="content">
+
+<!-- TENDENCIA -->
+
+<div class="panel">
+
+<h2>
+Tendencia mensual
+</h2>
+
+<div class="trend">
+
+<div class="trend-header">
+<span>Enero</span>
+<span>4.1 ⭐</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:82%"></div>
+</div>
+
+</div>
+
+<div class="trend">
+
+<div class="trend-header">
+<span>Febrero</span>
+<span>4.3 ⭐</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:86%"></div>
+</div>
+
+</div>
+
+<div class="trend">
+
+<div class="trend-header">
+<span>Marzo</span>
+<span>4.5 ⭐</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:90%"></div>
+</div>
+
+</div>
+
+<div class="trend">
+
+<div class="trend-header">
+<span>Abril</span>
+<span>4.7 ⭐</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:94%"></div>
+</div>
+
+</div>
+
+</div>
+
+<!-- RANKING -->
+
+<div class="panel">
+
+<h2>
+Ranking asesores
+</h2>
+
+<div class="ranking-item">
+<div>
+<strong>#1 Laura Gómez</strong>
+</div>
+
+<div>
+4.9 ⭐
+</div>
+</div>
+
+<div class="ranking-item">
+<div>
+<strong>#2 Carlos Pérez</strong>
+</div>
+
+<div>
+4.8 ⭐
+</div>
+</div>
+
+<div class="ranking-item">
+<div>
+<strong>#3 Ana Rodríguez</strong>
+</div>
+
+<div>
+4.7 ⭐
+</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- LOWER CONTENT -->
+
+<div class="content">
+
+<!-- NEGATIVE COMMENTS -->
+
+<div class="panel">
+
+<h2>
+Comentarios negativos
+</h2>
+
+<div class="comment">
+
+<strong>
+Tiempo de espera elevado
+</strong>
+
+<p>
+Usuario reporta demora superior a 30 minutos.
+</p>
+
+</div>
+
+<div class="comment">
+
+<strong>
+Mala atención
+</strong>
+
+<p>
+Cliente indica falta de claridad en la información.
+</p>
+
+</div>
+
+</div>
+
+<!-- STATUS -->
+
+<div class="panel">
+
+<h2>
+Estado general del servicio
+</h2>
+
+<div class="status">
+
+<div class="status-header">
+<span>Satisfacción general</span>
+<span>96%</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:96%"></div>
+</div>
+
+</div>
+
+<div class="status">
+
+<div class="status-header">
+<span>Recomendación</span>
+<span>92%</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:92%"></div>
+</div>
+
+</div>
+
+<div class="status">
+
+<div class="status-header">
+<span>Calidad atención</span>
+<span>94%</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:94%"></div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
+
+const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
+
+const client = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+)
+
+async function cargarDashboard(){
+
+    const { data, error } = await client
+    .from('respuestas')
+    .select('*')
+
+    if(error){
+
+        console.log(error)
+
+        return
+    }
+
+    const total = data.length
+
+    if(total === 0){
+
+        return
+    }
+
+    const promedio =
+    (
+        data.reduce(
+            (acc,item)=>acc + item.calificacion,
+            0
+        ) / total
+    ).toFixed(1)
+
+    const recomendacion =
+    (
+        data.filter(
+            item => item.recomendaria === true
+        ).length / total * 100
+    ).toFixed(0)
+
+    const negativos =
+    (
+        data.filter(
+            item => item.calificacion <= 2
+        ).length / total * 100
+    ).toFixed(0)
+
+    document.getElementById('promedio')
+    .innerText = promedio + ' ⭐'
+
+    document.getElementById('total')
+    .innerText = total
+
+    document.getElementById('recomendacion')
+    .innerText = recomendacion + '%'
+
+    document.getElementById('negativos')
+    .innerText = negativos + '%'
+}
+
+cargarDashboard()
+
+</script>
+
+</body>
+
+</html>
