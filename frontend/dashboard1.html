@@ -3,179 +3,177 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard ETICOS</title>
+    <title>Dashboard ETICOS</title>
 
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-<style>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f7ff;
+            padding: 30px;
+        }
 
-body{
-    font-family:Arial;
-    background:#f4f7ff;
-    padding:30px;
-}
+        .menu {
+            background: #0d47a1;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+        }
 
-.menu{
-    background:#0d47a1;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:30px;
-    display:flex;
-    gap:20px;
-}
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
 
-.menu a{
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-}
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
 
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:20px;
-}
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .1);
+        }
 
-.card{
-    background:white;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 10px 20px rgba(0,0,0,.1);
-}
+        .card h2 {
+            color: #666;
+            font-size: 16px;
+        }
 
-.card h2{
-    color:#666;
-    font-size:16px;
-}
-
-.card .value{
-    font-size:40px;
-    color:#0d47a1;
-    font-weight:bold;
-    margin-top:15px;
-}
-
-</style>
+        .card .value {
+            font-size: 40px;
+            color: #0d47a1;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
 
 </head>
 
 <body>
 
-<nav class="menu">
+    <nav class="menu">
 
-<a href="index.html">
-Encuesta
-</a>
+        <a href="index.html">
+            Encuesta
+        </a>
 
-<a href="dashboard.html">
-Dashboard
-</a>
+        <a href="dashboard.html">
+            Dashboard
+        </a>
 
-</nav>
+    </nav>
 
-<h1>
-Dashboard ETICOS
-</h1>
+    <h1>
+        Dashboard ETICOS
+    </h1>
 
-<div class="cards">
+    <div class="cards">
 
-<div class="card">
-<h2>Promedio satisfacción</h2>
-<div class="value" id="promedio">
-0 ⭐
-</div>
-</div>
+        <div class="card">
+            <h2>Promedio satisfacción</h2>
+            <div class="value" id="promedio">
+                0 ⭐
+            </div>
+        </div>
 
-<div class="card">
-<h2>Total respuestas</h2>
-<div class="value" id="total">
-0
-</div>
-</div>
+        <div class="card">
+            <h2>Total respuestas</h2>
+            <div class="value" id="total">
+                0
+            </div>
+        </div>
 
-<div class="card">
-<h2>Recomendación</h2>
-<div class="value" id="recomendacion">
-0%
-</div>
-</div>
+        <div class="card">
+            <h2>Recomendación</h2>
+            <div class="value" id="recomendacion">
+                0%
+            </div>
+        </div>
 
-<div class="card">
-<h2>Comentarios negativos</h2>
-<div class="value" id="negativos">
-0%
-</div>
-</div>
+        <div class="card">
+            <h2>Comentarios negativos</h2>
+            <div class="value" id="negativos">
+                0%
+            </div>
+        </div>
 
-</div>
+    </div>
 
-<script>
+    <script>
 
-const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
+        const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
+        const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
 
-const client = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-)
+        const client = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        )
 
-async function cargarDashboard(){
+        async function cargarDashboard() {
 
-    const { data, error } = await client
-    .from('respuestas')
-    .select('*')
+            const { data, error } = await client
+                .from('respuestas')
+                .select('*')
 
-    if(error){
+            if (error) {
 
-        console.log(error)
+                console.log(error)
 
-        return
-    }
+                return
+            }
 
-    const total = data.length
+            const total = data.length
 
-    const promedio =
-    (
-        data.reduce(
-            (acc,item)=>acc + item.calificacion,
-            0
-        ) / total
-    ).toFixed(1)
+            const promedio =
+                (
+                    data.reduce(
+                        (acc, item) => acc + item.calificacion,
+                        0
+                    ) / total
+                ).toFixed(1)
 
-    const recomendacion =
-    (
-        data.filter(
-            item => item.recomendaria === true
-        ).length / total * 100
-    ).toFixed(0)
+            const recomendacion =
+                (
+                    data.filter(
+                        item => item.recomendaria === true
+                    ).length / total * 100
+                ).toFixed(0)
 
-    const negativos =
-    (
-        data.filter(
-            item => item.calificacion <= 2
-        ).length / total * 100
-    ).toFixed(0)
+            const negativos =
+                (
+                    data.filter(
+                        item => item.calificacion <= 2
+                    ).length / total * 100
+                ).toFixed(0)
 
-    document.getElementById('promedio')
-    .innerText = promedio + ' ⭐'
+            document.getElementById('promedio')
+                .innerText = promedio + ' ⭐'
 
-    document.getElementById('total')
-    .innerText = total
+            document.getElementById('total')
+                .innerText = total
 
-    document.getElementById('recomendacion')
-    .innerText = recomendacion + '%'
+            document.getElementById('recomendacion')
+                .innerText = recomendacion + '%'
 
-    document.getElementById('negativos')
-    .innerText = negativos + '%'
-}
+            document.getElementById('negativos')
+                .innerText = negativos + '%'
+        }
 
-cargarDashboard()
+        cargarDashboard()
 
-</script>
+    </script>
 
 </body>
 

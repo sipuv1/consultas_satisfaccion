@@ -1,469 +1,419 @@
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>ETICOS | Encuesta</title>
+    <title>ETICOS | Encuesta</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
-<style>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f7ff;
+            padding: 30px;
+        }
 
-body{
-    font-family:Arial;
-    background:#f4f7ff;
-    padding:30px;
-}
+        .card {
+            background: white;
+            max-width: 700px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .1);
+        }
 
-.card{
-    background:white;
-    max-width:700px;
-    margin:auto;
-    padding:40px;
-    border-radius:20px;
-    box-shadow:0 10px 30px rgba(0,0,0,.1);
-}
+        h1 {
+            color: #0d47a1;
+            text-align: center;
+        }
 
-h1{
-    color:#0d47a1;
-    text-align:center;
-}
+        .question {
+            margin-top: 30px;
+        }
 
-.question{
-    margin-top:30px;
-}
+        .option {
 
-.option{
+            background: #eef3ff;
 
-    background:#eef3ff;
+            padding: 18px;
 
-    padding:18px;
+            border-radius: 14px;
 
-    border-radius:14px;
+            margin-top: 12px;
 
-    margin-top:12px;
+            display: flex;
 
-    display:flex;
+            align-items: center;
 
-    align-items:center;
+            gap: 12px;
 
-    gap:12px;
+            cursor: pointer;
 
-    cursor:pointer;
+            transition: .2s;
 
-    transition:.2s;
+            border: 2px solid transparent;
+        }
 
-    border:2px solid transparent;
-}
+        .option:hover {
 
-.option:hover{
+            background: #dfe9ff;
+        }
 
-    background:#dfe9ff;
-}
+        .option input {
 
-.option input{
+            transform: scale(1.2);
+        }
 
-    transform:scale(1.2);
-}
+        .option:has(input:checked) {
 
-.option:has(input:checked){
+            border: 2px solid #0d47a1;
 
-    border:2px solid #0d47a1;
+            background: #dbe7ff;
+        }
 
-    background:#dbe7ff;
-}
+        .option span {
+            font-size: 18px;
+            font-weight: 500;
+        }
 
-.option span{
-    font-size:18px;
-    font-weight:500;
-}
+        button {
+            width: 100%;
+            padding: 18px;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            margin-top: 30px;
+            cursor: pointer;
+            font-size: 18px;
+        }
 
-button{
-    width:100%;
-    padding:18px;
-    background:#0d47a1;
-    color:white;
-    border:none;
-    border-radius:12px;
-    margin-top:30px;
-    cursor:pointer;
-    font-size:18px;
-}
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+        }
 
-textarea{
-    width:100%;
-    padding:15px;
-    border-radius:10px;
-}
+        .logo {
+            width: 260px;
+            height: 100px;
+            /*border:2px dashed #0d47a1;*/
+            border-radius: 20px;
+            background: white;
 
-.logo{
-    width:260px;
-    height:100px;
-    /*border:2px dashed #0d47a1;*/
-    border-radius:20px;
-    background:white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-    display:flex;
-    justify-content:center;
-    align-items:center;
+            margin: 0 auto;
 
-    margin:0 auto;
+            overflow: hidden;
+        }
 
-    overflow:hidden;
-}
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
 
-.logo img{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    padding:10px;
-}
+        /* SELECT CONTRATO */
 
-/* SELECT CONTRATO */
+        select {
 
-select{
+            width: 100%;
 
-    width:100%;
+            padding: 16px;
 
-    padding:16px;
+            border-radius: 14px;
 
-    border-radius:14px;
+            border: 2px solid #dbeafe;
 
-    border:2px solid #dbeafe;
+            font-size: 16px;
 
-    font-size:16px;
+            margin-top: 15px;
 
-    margin-top:15px;
+            background: white;
 
-    background:white;
+            color: #333;
 
-    color:#333;
+            outline: none;
 
-    outline:none;
+            transition: .3s;
+        }
 
-    transition:.3s;
-}
+        select:focus {
 
-select:focus{
+            border-color: #0d47a1;
 
-    border-color:#0d47a1;
-
-    box-shadow:0 0 0 4px rgba(13,71,161,.15);
-}
-
-</style>
+            box-shadow: 0 0 0 4px rgba(13, 71, 161, .15);
+        }
+    </style>
 
 </head>
 
 <body>
 
-<div class="card">
+    <div class="card">
 
-<div class="logo">
+        <div class="logo">
 
-<img
-    id="logoEmpresa"
-    src="img/logo.png"
-    alt="Logo ETICOS"
-/>
+            <img id="logoEmpresa" src="img/logo.png" alt="Logo ETICOS" />
 
-</div>
+        </div>
 
-<h1>¿Cómo fue tu experiencia?</h1>
+        <h1>¿Cómo fue tu experiencia?</h1>
 
-<p>Tu opinión nos ayuda a mejorar nuestro servicio ¡queremos que tengas una bonita experiencia! </p>
+        <p>Tu opinión nos ayuda a mejorar nuestro servicio ¡queremos que tengas una bonita experiencia! </p>
 
-<form id="encuestaForm">
+        <form id="encuestaForm">
 
-<div class="question">
+            <div class="question">
 
- <h3>
-    Selecciona el contrato
-    </h3>
+                <div class="question">
 
-    <select
-    id="contrato"
-    name="contrato"
-    required>
+                    <h3>
+                        Selecciona el contrato
+                    </h3>
 
-        <option value="">
-        Seleccione una opción
+                    <select id="contrato" name="contrato" required>
+
+                        <option value="">
+                            Cargando contratos...
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <h3>¿Cómo calificas la atención recibida?</h3>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="1" required>
+                    <span>
+                        ⭐ Muy mala
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="2" required>
+                    <span>
+                        ⭐⭐ Mala
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="3" required>
+                    <span>
+                        ⭐⭐⭐ Regular
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="4" required>
+                    <span>
+                        ⭐⭐⭐⭐ Buena
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="5" required>
+                    <span>
+                        ⭐⭐⭐⭐⭐ Excelente
+                    </span>
+                </label>
+
+
+            </div>
+
+            <div class="question">
+
+                <h3>¿El tiempo de atención fue adecuado?</h3>
+
+                <label class="option">
+                    <input type="radio" name="tiempo" value="true" required>
+                    <span>
+                        Sí
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="tiempo" value="false" required>
+                    <span>
+                        No
+                    </span>
+                </label>
+
+
+            </div>
+
+            <div class="question">
+
+                <h3>¿El personal fue amable y claro?</h3>
+
+                <label class="option">
+                    <input type="radio" name="amabilidad" value="Si" required>
+                    <span>
+                        Sí
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="amabilidad" value="Parcialmente" required>
+                    <span>
+                        Parcialmente
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="amabilidad" value="No" required>
+                    <span>
+                        No
+                    </span>
+                </label>
+
+
+            </div>
+
+            <div class="question">
+
+                <h3>¿Recomendarías nuestro servicio?</h3>
+
+                <label class="option">
+                    <input type="radio" name="recomendaria" value="true" required>
+                    <span>
+                        Sí
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="recomendaria" value="false" required>
+                    <span>
+                        No
+                    </span>
+                </label>
+
+
+            </div>
+
+            <div class="question">
+
+                <h3>Déjanos un comentario</h3>
+
+                <textarea id="comentario" rows="5"></textarea>
+
+            </div>
+
+            <button type="submit">
+                Enviar Encuesta
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
+        const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
+
+        const client = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        )
+
+        async function cargarContratos() {
+
+            const { data, error } = await client
+                .from('contratos')
+                .select('*')
+                .eq('activo', true)
+                .order('nombre')
+
+            if (error) {
+
+                console.log(error)
+
+                return
+            }
+
+            const select =
+                document.getElementById('contrato')
+
+            select.innerHTML = `
+
+    <option value="">
+    Seleccione un contrato
+    </option>
+    `
+
+            data.forEach(contrato => {
+
+                select.innerHTML += `
+
+        <option value="${contrato.nombre}">
+        ${contrato.nombre}
         </option>
+        `
+            })
+        }
 
-        <option value="FOMAG">
-        FOMAG
-        </option>
-
-        <option value="PONAL">
-        PONAL
-        </option>
-
-        <option value="FUERZAS MILITARES">
-        FUERZAS MILITARES
-        </option>
-
-        <option value="ECOPETROL">
-        ECOPETROL
-        </option>
-
-        <option value="SANITAS">
-        SANITAS
-        </option>
-
-    </select>   
-
-<h3>¿Cómo calificas la atención recibida?</h3>
-
-<label class="option">
-<input
-    type="radio"
-    name="calificacion"
-    value="1"
-    required
->
-<span>
-⭐ Muy mala
-</span>
-</label>
-
-<label class="option">
-<input
-    type="radio"
-    name="calificacion"
-    value="2"
-    required
->
-<span>
-⭐⭐ Mala
-</span>
-</label>
-
-<label class="option">
-<input
-    type="radio"
-    name="calificacion"
-    value="3"
-    required
->
-<span>
-⭐⭐⭐ Regular
-</span>
-</label>
-
-<label class="option">
-<input
-    type="radio"
-    name="calificacion"
-    value="4"
-    required
->
-<span>
-⭐⭐⭐⭐ Buena
-</span>
-</label>
-
-<label class="option">
-<input
-    type="radio"
-    name="calificacion"
-    value="5"
-    required
->
-<span>
-⭐⭐⭐⭐⭐ Excelente
-</span>
-</label>
-
-
-</div>
-
-<div class="question">
-
-<h3>¿El tiempo de atención fue adecuado?</h3>
-
-<label class="option">
-<input
-    type="radio"
-    name="tiempo"
-    value="true"
-    required
->
-<span>
-Sí
-</span>
-</label>
-
-<label class="option">
-<input
-    type="radio"
-    name="tiempo"
-    value="false"
-    required
->
-<span>
-No
-</span>
-</label>
-
-
-</div>
-
-<div class="question">
-
-<h3>¿El personal fue amable y claro?</h3>
-
-<label class="option">
-<input
-    type="radio"
-    name="amabilidad"
-    value="Si"
-    required
->
-<span>
-Sí
-</span>
-</label>
-
-<label class="option">
-<input
-    type="radio"
-    name="amabilidad"
-    value="Parcialmente"
-    required
->
-<span>
-Parcialmente
-</span>
-</label>
-
-<label class="option">
-<input
-    type="radio"
-    name="amabilidad"
-    value="No"
-    required
->
-<span>
-No
-</span>
-</label>
-
-
-</div>
-
-<div class="question">
-
-<h3>¿Recomendarías nuestro servicio?</h3>
-
-<label class="option">
-<input
-    type="radio"
-    name="recomendaria"
-    value="true"
-    required
->
-<span>
-Sí
-</span>
-</label>
-
-<label class="option">
-<input
-    type="radio"
-    name="recomendaria"
-    value="false"
-    required
->
-<span>
-No
-</span>
-</label>
-
-
-</div>
-
-<div class="question">
-
-<h3>Déjanos un comentario</h3>
-
-<textarea id="comentario" rows="5"></textarea>
-
-</div>
-
-<button type="submit">
-Enviar Encuesta
-</button>
-
-</form>
-
-</div>
-
-<script>
-
-const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
-const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
-
-const client = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-)
-
-document
-.getElementById('encuestaForm')
-.addEventListener('submit', async function(e){
-
-e.preventDefault()
-
-const calificacion =
-document.querySelector('input[name="calificacion"]:checked').value
-
-const tiempo =
-document.querySelector('input[name="tiempo"]:checked').value
-
-const amabilidad =
-document.querySelector('input[name="amabilidad"]:checked').value
-
-const recomendaria =
-document.querySelector('input[name="recomendaria"]:checked').value
-
-const comentario =
-document.getElementById('comentario').value
-
-const { data, error } = await client
-.from('respuestas')
-.insert([
-{
-
-    calificacion: calificacion,
-    tiempo_atencion: tiempo === 'true',
-    amabilidad: amabilidad,
-    recomendaria: recomendaria === 'true',
-    comentario: comentario,
-    contrato:
+        cargarContratos()
         document
-        .getElementById('contrato')
-        .value,  
-}
-])
+            .getElementById('encuestaForm')
+            .addEventListener('submit', async function (e) {
 
-if(error){
+                e.preventDefault()
 
-    alert('Error guardando información')
+                const calificacion =
+                    document.querySelector('input[name="calificacion"]:checked').value
 
-    console.log(error)
+                const tiempo =
+                    document.querySelector('input[name="tiempo"]:checked').value
 
-}else{
+                const amabilidad =
+                    document.querySelector('input[name="amabilidad"]:checked').value
 
-    alert('¡Gracias por tu opinión!')
+                const recomendaria =
+                    document.querySelector('input[name="recomendaria"]:checked').value
 
-    document.getElementById('encuestaForm').reset()
-}
+                const comentario =
+                    document.getElementById('comentario').value
 
-})
+                const { data, error } = await client
+                    .from('respuestas')
+                    .insert([
+                        {
+                            contrato: document.getElementById('contrato').value,
+                            calificacion: calificacion,
+                            tiempo_atencion: tiempo === 'true',
+                            amabilidad: amabilidad,
+                            recomendaria: recomendaria === 'true',
+                            comentario: comentario,
 
-</script>
+                        }
+                    ])
+
+                if (error) {
+
+                    alert('Error guardando información')
+
+                    console.log(error)
+
+                } else {
+
+                    alert('¡Gracias por tu opinión!')
+
+                    document.getElementById('encuestaForm').reset()
+                }
+
+            })
+
+    </script>
 
 </body>
+
 </html>

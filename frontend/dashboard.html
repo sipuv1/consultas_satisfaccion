@@ -3,1150 +3,1500 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard ETICOS</title>
+    <title>Dashboard ETICOS</title>
 
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-<style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
+        body {
+            background: #f1f5ff;
+            padding: 30px;
+        }
 
-body{
-    background:#f1f5ff;
-    padding:30px;
-}
+        .container {
+            max-width: 1400px;
+            margin: auto;
+        }
 
-.container{
-    max-width:1400px;
-    margin:auto;
-}
+        /* MENU */
 
-/* MENU */
+        .menu {
+            background: #0d47a1;
+            padding: 18px 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
 
-.menu{
-    background:#0d47a1;
-    padding:18px 25px;
-    border-radius:20px;
-    margin-bottom:30px;
-    display:flex;
-    gap:20px;
-    align-items:center;
-}
+        .menu a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
 
-.menu a{
-    color:white;
-    text-decoration:none;
-    font-weight:bold;
-    font-size:16px;
-}
+        /* HEADER */
 
-/* HEADER */
+        .header {
+            background: white;
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
 
-.header{
-    background:white;
-    border-radius:30px;
-    padding:40px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-    margin-bottom:30px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    flex-wrap:wrap;
-    gap:20px;
-}
-
-/*.header h1{
+        /*.header h1{
     font-size:42px;
     color:#0d47a1;
 }*/
 
-.header h1{
-    font-size:48px;
-    font-weight:800;
-    color:#0d47a1;
-}
-.header p{
-    color:#666;
-    margin-top:10px;
-    font-size:18px;
-}
+        .header h1 {
+            font-size: 48px;
+            font-weight: 800;
+            color: #0d47a1;
+        }
 
-.logo{
-    width:260px;
-    height:100px;
-   /*border:2px dashed #0d47a1;*/
-    border-radius:20px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    color:#0d47a1;
-    font-weight:bold;
-}
+        .header p {
+            color: #666;
+            margin-top: 10px;
+            font-size: 18px;
+        }
 
-/* KPI CARDS */
+        .logo {
+            width: 260px;
+            height: 100px;
+            /*border:2px dashed #0d47a1;*/
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #0d47a1;
+            font-weight: bold;
+        }
 
-.cards{
+        /* KPI CARDS */
 
-    display:grid;
+        .cards {
 
-    grid-template-columns:
-    repeat(auto-fit,minmax(260px,1fr));
+            display: grid;
 
-    gap:25px;
+            grid-template-columns:
+                repeat(auto-fit, minmax(260px, 1fr));
 
-    margin-bottom:30px;
+            gap: 25px;
 
-    align-items:stretch;
-}
+            margin-bottom: 30px;
 
-.card{
+            align-items: stretch;
+        }
 
-    background:white;
+        .card {
 
-    padding:30px;
+            background: white;
 
-    border-radius:30px;
+            padding: 30px;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+            border-radius: 30px;
 
-    transition:.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
 
-    min-height:220px;
+            transition: .3s;
 
-    display:flex;
+            min-height: 220px;
 
-    flex-direction:column;
+            display: flex;
 
-    justify-content:justify;
+            flex-direction: column;
 
-    align-items:center;
-}
+            justify-content: justify;
 
+            align-items: center;
+        }
 
-.card:hover{
-    transform:translateY(-5px);
-}
 
-.card h2{
-    color:#666;
-    font-size:18px;
-}
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-.card .value{
-    font-size:42px;
-    color:#0d47a1;
-    font-weight:bold;
-    margin-top:15px;
-}
+        .card h2 {
+            color: #666;
+            font-size: 18px;
+        }
 
-/* CONTENT */
+        .card .value {
+            font-size: 42px;
+            color: #0d47a1;
+            font-weight: bold;
+            margin-top: 15px;
+        }
 
-.content{
-    display:grid;
-    grid-template-columns:2fr 1fr;
-    gap:30px;
-    margin-bottom:30px;
-}
+        /* CONTENT */
 
-.panel{
-    background:white;
-    padding:35px;
-    border-radius:30px;
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
+        .content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
 
-.panel h2{
-    color:#0d47a1;
-    margin-bottom:25px;
-}
+        .panel {
+            background: white;
+            padding: 35px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+        }
 
-/* COMENTARIOS GRID */
+        .panel h2 {
+            color: #0d47a1;
+            margin-bottom: 25px;
+        }
 
-.comments-grid{
+        /* COMENTARIOS GRID */
 
-    display:grid;
+        .comments-grid {
 
-    grid-template-columns:1fr 1fr;
+            display: grid;
 
-    gap:30px;
+            grid-template-columns: 1fr 1fr;
 
-    margin-bottom:30px;
-}
+            gap: 30px;
 
-/* RESPONSIVE */
+            margin-bottom: 30px;
+        }
 
-@media(max-width:1100px){
+        /* RESPONSIVE */
 
-    .comments-grid{
+        @media(max-width:1100px) {
 
-        grid-template-columns:1fr;
-    }
-}
+            .comments-grid {
 
-/* COMENTARIOS */
+                grid-template-columns: 1fr;
+            }
+        }
 
-.comment{
+        /* COMENTARIOS */
 
-    padding:18px;
+        .comment {
 
-    border-radius:18px;
+            padding: 18px;
 
-    margin-bottom:15px;
-}
+            border-radius: 18px;
 
-/* POSITIVOS */
+            margin-bottom: 15px;
+        }
 
-.positive{
+        /* POSITIVOS */
 
-    background:#f0fff4;
+        .positive {
 
-    border:1px solid #bbf7d0;
-}
+            background: #f0fff4;
 
-.positive strong{
+            border: 1px solid #bbf7d0;
+        }
 
-    color:#15803d;
-}
+        .positive strong {
 
-/* NEGATIVOS */
+            color: #15803d;
+        }
 
-.negative{
+        /* NEGATIVOS */
 
-    background:#fff1f2;
+        .negative {
 
-    border:1px solid #fecdd3;
-}
+            background: #fff1f2;
 
-.negative strong{
+            border: 1px solid #fecdd3;
+        }
 
-    color:#dc2626;
-}
+        .negative strong {
 
-/* TENDENCIA MENSUAL */
+            color: #dc2626;
+        }
 
-.trend{
+        /* TENDENCIA MENSUAL */
 
-    margin-bottom:28px;
-}
+        .trend {
 
-.trend-header{
+            margin-bottom: 28px;
+        }
 
-    display:flex;
+        .trend-header {
 
-    justify-content:space-between;
+            display: flex;
 
-    align-items:center;
+            justify-content: space-between;
 
-    margin-bottom:10px;
+            align-items: center;
 
-    font-size:15px;
+            margin-bottom: 10px;
 
-    font-weight:600;
-}
+            font-size: 15px;
 
-.trend-rating{
+            font-weight: 600;
+        }
 
-    color:#f5b301;
+        .trend-rating {
 
-    font-weight:bold;
-}
+            color: #f5b301;
 
-.bar{
+            font-weight: bold;
+        }
 
-    width:100%;
+        .bar {
 
-    height:16px;
+            width: 100%;
 
-    background:#e5e7eb;
+            height: 16px;
 
-    border-radius:20px;
+            background: #e5e7eb;
 
-    overflow:hidden;
-}
+            border-radius: 20px;
 
-.bar-fill{
+            overflow: hidden;
+        }
 
-    height:100%;
+        .bar-fill {
 
-    background:#0d47a1;
+            height: 100%;
 
-    border-radius:20px;
+            background: #0d47a1;
 
-    transition:1s;
-}
+            border-radius: 20px;
 
-.bar{
-    width:100%;
-    height:18px;
-    background:#e5e7eb;
-    border-radius:20px;
-    overflow:hidden;
-}
+            transition: 1s;
+        }
 
-.bar-fill{
-    height:100%;
-    background:#0d47a1;
-    border-radius:20px;
-}
+        .bar {
+            width: 100%;
+            height: 18px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
 
-/* RANKING */
+        .bar-fill {
+            height: 100%;
+            background: #0d47a1;
+            border-radius: 20px;
+        }
 
-.ranking-item{
-    background:#f5f8ff;
-    padding:18px;
-    border-radius:18px;
-    margin-bottom:15px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+        /* RANKING */
 
-/* NEGATIVE COMMENTS */
+        .ranking-item {
+            background: #f5f8ff;
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.comment{
-    background:#fff0f0;
-    border:1px solid #ffcccc;
-    padding:18px;
-    border-radius:18px;
-    margin-bottom:15px;
-}
+        /* NEGATIVE COMMENTS */
 
-.comment strong{
-    color:#cc0000;
-}
+        .comment {
+            background: #fff0f0;
+            border: 1px solid #ffcccc;
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 15px;
+        }
 
-.comment-date{
+        .comment strong {
+            color: #cc0000;
+        }
 
-    display:block;
+        .comment-date {
 
-    margin-top:10px;
+            display: block;
 
-    font-size:12px;
+            margin-top: 10px;
 
-    color:#777;
-}
+            font-size: 12px;
 
-/* ESTADO GENERAL */
+            color: #777;
+        }
 
-.status{
+        /* ESTADO GENERAL */
 
-    margin-bottom:28px;
-}
+        .status {
 
-.status-header{
+            margin-bottom: 28px;
+        }
 
-    display:flex;
+        .status-header {
 
-    justify-content:space-between;
+            display: flex;
 
-    align-items:center;
+            justify-content: space-between;
 
-    margin-bottom:10px;
+            align-items: center;
 
-    font-size:15px;
+            margin-bottom: 10px;
 
-    font-weight:600;
-}
+            font-size: 15px;
 
-.status-value{
+            font-weight: 600;
+        }
 
-    color:#0d47a1;
+        .status-value {
 
-    font-weight:bold;
-}
+            color: #0d47a1;
 
-.bar{
+            font-weight: bold;
+        }
 
-    width:100%;
+        .bar {
 
-    height:16px;
+            width: 100%;
 
-    background:#e5e7eb;
+            height: 16px;
 
-    border-radius:20px;
+            background: #e5e7eb;
 
-    overflow:hidden;
-}
+            border-radius: 20px;
 
-.bar-fill{
+            overflow: hidden;
+        }
 
-    height:100%;
+        .bar-fill {
 
-    background:#0d47a1;
+            height: 100%;
 
-    border-radius:20px;
+            background: #0d47a1;
 
-    transition:1s;
-}
+            border-radius: 20px;
 
-/* POSITIVOS */
+            transition: 1s;
+        }
 
-.positive{
+        /* POSITIVOS */
 
-    background:#f0fff4;
+        .positive {
 
-    border:1px solid #bbf7d0;
-}
+            background: #f0fff4;
 
-.positive strong{
+            border: 1px solid #bbf7d0;
+        }
 
-    color:#15803d;
-}
+        .positive strong {
 
-/* REGULARES */
+            color: #15803d;
+        }
 
-.regular{
+        /* REGULARES */
 
-    background:#f0f9ff;
+        .regular {
 
-    border:1px solid #dbeafe;
-}
+            background: #f0f9ff;
 
-.regular strong{
+            border: 1px solid #dbeafe;
+        }
 
-    color:#2563eb;
-}
+        .regular strong {
 
-/* NEGATIVOS */
+            color: #2563eb;
+        }
 
-.negative{
+        /* NEGATIVOS */
 
-    background:#fff1f2;
+        .negative {
 
-    border:1px solid #fecdd3;
-}
+            background: #fff1f2;
 
-.negative strong{
+            border: 1px solid #fecdd3;
+        }
 
-    color:#dc2626;
-}
+        .negative strong {
 
-/* RATING MODERNO */
-/* =========================
+            color: #dc2626;
+        }
+
+        /* RATING MODERNO */
+        /* =========================
 RATING MODERNO
 ========================= */
 
-.rating-container{
+        .rating-container {
 
-    display:flex;
+            display: flex;
 
-    flex-direction:column;
+            flex-direction: column;
 
-    align-items:center;
+            align-items: center;
 
-    justify-content:center;
+            justify-content: center;
 
-    margin-top:15px;
+            margin-top: 15px;
 
-    width:100%;
-}
+            width: 100%;
+        }
 
-.rating-number{
+        .rating-number {
 
-    font-size:52px;
+            font-size: 52px;
 
-    font-weight:bold;
+            font-weight: bold;
 
-    color:#0d47a1;
+            color: #0d47a1;
 
-    line-height:1;
-}
+            line-height: 1;
+        }
 
-.rating-stars{
+        .rating-stars {
 
-    margin-top:10px;
+            margin-top: 10px;
 
-    font-size:30px;
+            font-size: 30px;
 
-    color:#f5b301;
+            color: #f5b301;
 
-    letter-spacing:1px;
+            letter-spacing: 1px;
 
-    line-height:1.2;
+            line-height: 1.2;
 
-    word-break:break-word;
-}
+            word-break: break-word;
+        }
 
-.rating-total{
+        .rating-total {
 
-    margin-top:10px;
+            margin-top: 10px;
 
-    font-size:15px;
+            font-size: 15px;
 
-    color:#666;
-}
+            color: #666;
+        }
 
-.rating-label{
+        .rating-label {
 
-    margin-top:15px;
+            margin-top: 15px;
 
-    text-align:center;
+            text-align: center;
 
-    color:#666;
+            color: #666;
 
-    font-size:15px;
+            font-size: 15px;
 
-    line-height:1.4;
-}
+            line-height: 1.4;
+        }
 
-/* SEPARACION PANEL ESTADO */
+        /* SEPARACION PANEL ESTADO */
 
-.panel-status{
+        .panel-status {
 
-    margin-top:40px;
-}
+            margin-top: 40px;
+        }
 
-/* RESPONSIVE */
+        /* FILTROS */
 
-@media(max-width:900px){
+        /* ======================================
+FILTROS DASHBOARD
+====================================== */
 
-    .content{
-        grid-template-columns:1fr;
-    }
+        .filter-bar {
 
-    .header{
-        flex-direction:column;
-        align-items:flex-start;
-    }
+            background: white;
 
-}
+            padding: 25px;
 
-</style>
+            border-radius: 25px;
+
+            margin-bottom: 30px;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+
+            display: flex;
+
+            gap: 18px;
+
+            align-items: end;
+
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 10px;
+
+            min-width: 180px;
+
+            flex: 1;
+        }
+
+        .filter-group label {
+
+            font-weight: bold;
+
+            color: #0d47a1;
+
+            font-size: 14px;
+        }
+
+        /* SELECTS E INPUTS */
+
+        .filter-group select,
+        .filter-group input {
+
+            padding: 14px;
+
+            border-radius: 14px;
+
+            border: 2px solid #dbeafe;
+
+            outline: none;
+
+            font-size: 15px;
+
+            width: 100%;
+
+            transition: .3s;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+
+            border-color: #0d47a1;
+
+            box-shadow: 0 0 0 4px rgba(13, 71, 161, .1);
+        }
+
+        /* BOTONES */
+
+        .btn-filter {
+
+            background: #0d47a1;
+
+            color: white;
+
+            border: none;
+
+            padding: 14px 20px;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            transition: .3s;
+
+            width: 100%;
+        }
+
+        .btn-filter:hover {
+
+            transform: translateY(-2px);
+        }
+
+        /* EXCEL */
+
+        .btn-excel {
+
+            background: #15803d;
+        }
+
+        /* PDF */
+
+        .btn-pdf {
+
+            background: #dc2626;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1100px) {
+
+            .filter-group {
+
+                min-width: 100%;
+            }
+        }
+    </style>
 
 </head>
 
 <body>
 
-<div class="container">
+    <div class="container">
 
-<!-- MENU -->
+        <!-- MENU -->
 
-<nav class="menu">
+        <nav class="menu">
 
-<a href="/./index.html">
-Encuesta
-</a>
+            <a href="/./index.html">
+                Encuesta
+            </a>
 
-<a href="dashboard.html">
-Dashboard
-</a>
+            <a href="dashboard.html">
+                Dashboard
+            </a>
 
-</nav>
+        </nav>
 
-<!-- HEADER -->
+        <!-- HEADER -->
 
-<div class="header">
+        <div class="header">
 
-<div>
+            <div>
 
-<h1>
-Dashboard ETICOS
-</h1>
+                <h1>
+                    Dashboard ETICOS
+                </h1>
 
-<p>
-Sistema de satisfacción y experiencia del usuario
-</p>
+                <p>
+                    Sistema de satisfacción y experiencia del usuario
+                </p>
 
-</div>
-
-<div class="logo">
-
-<img
-    id="logoEmpresa"
-    src="../img/logo.png"
-    alt="Logo ETICOS"
-/>
-
-</div>
-</div>
-
-<!-- KPI CARDS -->
-
-<div class="cards">
-
-    <!-- PROMEDIO -->
-
-    <div class="card">
-
-        <h2>
-        Promedio satisfacción
-        </h2>
-
-        <div class="rating-container">
-
-            <div
-            class="rating-number"
-            id="promedioNumero">
-            0.0
             </div>
 
-            <div
-            class="rating-stars"
-            id="ratingStars">
-            ☆☆☆☆☆
+            <div class="logo">
+
+                <img id="logoEmpresa" src="../img/logo.png" alt="Logo ETICOS" />
+
+            </div>
+        </div>
+
+        <div class="filter-bar">
+
+            <!-- CONTRATO -->
+
+            <div class="filter-group">
+
+                <label>
+                    Contrato
+                </label>
+
+                <select id="filtroContrato">
+
+                    <option value="todos">
+                        Todos los contratos
+                    </option>
+
+                </select>
+
             </div>
 
-            <div
-            class="rating-total"
-            id="ratingTotal">
-            0 evaluaciones
+            <!-- FECHA INICIO -->
+
+            <div class="filter-group">
+
+                <label>
+                    Fecha inicio
+                </label>
+
+                <input type="date" id="fechaInicio">
+
             </div>
 
-            <div class="rating-label">
-            Nivel general del servicio
+            <!-- FECHA FIN -->
+
+            <div class="filter-group">
+
+                <label>
+                    Fecha fin
+                </label>
+
+                <input type="date" id="fechaFin">
+
+            </div>
+
+            <!-- BOTON FILTRAR -->
+
+            <div class="filter-group filter-button">
+
+                <label>
+                    Aplicar
+                </label>
+
+                <button onclick="cargarDashboard()" class="btn-filter">
+
+                    Filtrar
+
+                </button>
+
+            </div>
+
+            <!-- EXPORTAR EXCEL -->
+
+            <div class="filter-group filter-button">
+
+                <label>
+                    Excel
+                </label>
+
+                <button onclick="exportarExcel()" class="btn-filter btn-excel">
+
+                    Exportar
+
+                </button>
+
+            </div>
+
+            <!-- EXPORTAR PDF -->
+
+            <div class="filter-group filter-button">
+
+                <label>
+                    PDF
+                </label>
+
+                <button onclick="exportarPDF()" class="btn-filter btn-pdf">
+
+                    Exportar
+
+                </button>
+
             </div>
 
         </div>
 
+        <!-- KPI CARDS -->
+
+        <div class="cards">
+
+            <!-- PROMEDIO -->
+
+            <div class="card">
+
+                <h2>
+                    Promedio satisfacción
+                </h2>
+
+                <div class="rating-container">
+
+                    <div class="rating-number" id="promedioNumero">
+                        0.0
+                    </div>
+
+                    <div class="rating-stars" id="ratingStars">
+                        ☆☆☆☆☆
+                    </div>
+
+                    <div class="rating-total" id="ratingTotal">
+                        0 evaluaciones
+                    </div>
+
+                    <div class="rating-label">
+                        Nivel general del servicio
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- TOTAL RESPUESTAS -->
+
+            <div class="card">
+
+                <h2>
+                    Total respuestas
+                </h2>
+
+                <div class="value" id="total">
+                    0
+                </div>
+
+            </div>
+
+            <!-- RECOMENDACION -->
+
+            <div class="card">
+
+                <h2>
+                    Recomendación
+                </h2>
+
+                <div class="value" id="recomendacion">
+                    0%
+                </div>
+
+            </div>
+
+            <!-- POSITIVOS -->
+
+            <div class="card">
+
+                <h2>
+                    Comentarios positivos
+                </h2>
+
+                <div class="value" id="positivos">
+                    0%
+                </div>
+
+            </div>
+
+            <!-- NEGATIVOS -->
+
+            <div class="card">
+
+                <h2>
+                    Comentarios negativos
+                </h2>
+
+                <div class="value" id="negativos">
+                    0%
+                </div>
+
+            </div>
+
+        </div>
+        <!-- CONTENT -->
+
+        <div class="content">
+
+            <!-- TENDENCIA -->
+
+            <div class="panel">
+
+                <h2>
+                    Tendencia mensual
+                </h2>
+
+                <div id="tendenciaMensual">
+
+                </div>
+
+            </div>
+
+            <!-- RANKING / DISTRIBUCION -->
+
+            <div class="panel">
+
+                <h2>
+                    Ranking satisfacción
+                </h2>
+
+                <div id="nivelesSatisfaccion">
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel ">
+
+            <h2>
+                Estado general del servicio
+            </h2>
+
+            <div id="estadoServicio">
+
+            </div>
+
+        </div>
+
+        <div class="panel panel-status">
+
+            <h2>
+                Comentarios recientes
+            </h2>
+            <div class="comments-grid">
+
+                <!-- POSITIVOS -->
+
+                <div class="panel">
+
+                    <h2>
+                        Comentarios positivos
+                    </h2>
+
+                    <div id="comentariosPositivos">
+
+                    </div>
+
+                </div>
+
+                <!-- NEGATIVOS -->
+
+                <div class="panel">
+
+                    <h2>
+                        Comentarios negativos
+                    </h2>
+
+                    <div id="comentariosNegativos">
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- STATUS -->
+
+
     </div>
 
-    <!-- TOTAL RESPUESTAS -->
+    </div>
 
-    <div class="card">
+    </div>
 
-        <h2>
-        Total respuestas
-        </h2>
+    <div id="comentariosPositivos"></div>
+    <div id="comentariosNegativos"></div>
+    <div id="comentariosRegulares"></div>
+    <div id="rankingAsesores"></div>
 
-        <div
-        class="value"
-        id="total">
-        0
+    <div class="rating-breakdown">
+
+        <div class="breakdown-row">
+            <span>⭐⭐⭐⭐⭐</span>
+            <div class="mini-bar">
+                <div class="mini-fill" style="width:78%"></div>
+            </div>
+            <span>78%</span>
         </div>
 
     </div>
-
-    <!-- RECOMENDACION -->
-
-    <div class="card">
-
-        <h2>
-        Recomendación
-        </h2>
-
-        <div
-        class="value"
-        id="recomendacion">
-        0%
-        </div>
-
-    </div>
-
-    <!-- POSITIVOS -->
-
-    <div class="card">
-
-        <h2>
-        Comentarios positivos
-        </h2>
-
-        <div
-        class="value"
-        id="positivos">
-        0%
-        </div>
-
-    </div>
-
-    <!-- NEGATIVOS -->
-
-    <div class="card">
-
-        <h2>
-        Comentarios negativos
-        </h2>
-
-        <div
-        class="value"
-        id="negativos">
-        0%
-        </div>
-
-    </div>
-
-</div>
-<!-- CONTENT -->
-
-<div class="content">
-
-    <!-- TENDENCIA -->
 
     <div class="panel">
 
         <h2>
-        Tendencia mensual
+            Resumen general contratos
         </h2>
 
-        <div id="tendenciaMensual">
+        <div id="resumenContratos">
 
         </div>
 
     </div>
 
-    <!-- RANKING / DISTRIBUCION -->
 
-    <div class="panel">
+    <script>
 
-        <h2>
-        Ranking satisfacción
-        </h2>
+        const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
 
-        <div id="nivelesSatisfaccion">
+        const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
 
-        </div>
+        const client = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        )
 
+        // ======================================
+        // CARGAR CONTRATOS FILTRO DASHBOARD
+        // ======================================
+
+        async function cargarFiltroContratos() {
+
+            const { data, error } = await client
+                .from('contratos')
+                .select('*')
+                .eq('activo', true)
+                .order('nombre')
+
+            if (error) {
+
+                console.log(error)
+                return
+            }
+
+            const select =
+                document.getElementById(
+                    'filtroContrato'
+                )
+
+            select.innerHTML = `
+    <option value="todos">
+    Todos los contratos
+    </option>
+    `
+
+            data.forEach(item => {
+
+                select.innerHTML += `
+        <option value="${item.nombre}">
+        ${item.nombre}
+        </option>
+        `
+            })
+        }
+
+        // ======================================
+        // DASHBOARD
+        // ======================================
+
+        async function cargarDashboard() {
+
+            // =========================
+            // FILTRO CONTRATO
+            // =========================
+
+            let query = client
+                .from('respuestas')
+                .select('*')
+
+            // ======================================
+            // FILTRO FECHAS
+            // ======================================
+
+            const fechaInicio =
+                document
+                    .getElementById('fechaInicio')
+                    .value
+
+            const fechaFin =
+                document
+                    .getElementById('fechaFin')
+                    .value
+
+            const contratoSeleccionado =
+                document
+                    .getElementById('filtroContrato')
+                    .value
+
+            if (
+                contratoSeleccionado !== 'todos'
+            ) {
+
+                query = query.eq(
+                    'contrato',
+                    contratoSeleccionado
+                )
+            }
+
+            // ======================================
+            // FILTRO FECHA INICIO
+            // ======================================
+
+            if (fechaInicio) {
+
+                query = query.gte(
+                    'fecha',
+                    fechaInicio
+                )
+            }
+
+            // ======================================
+            // FILTRO FECHA FIN
+            // ======================================
+
+            if (fechaFin) {
+
+                query = query.lte(
+                    'fecha',
+                    fechaFin + 'T23:59:59'
+                )
+            }
+            const { data, error } =
+                await query
+
+            if (error) {
+
+                console.log(error)
+                return
+            }
+
+            const total = data.length
+
+            if (total === 0) {
+
+                // KPIs
+
+
+                document
+                    .getElementById('promedioNumero')
+                    .innerText = '0.0'
+
+                document
+                    .getElementById('ratingStars')
+                    .innerHTML = '☆☆☆☆☆'
+
+                document
+                    .getElementById('ratingTotal')
+                    .innerText = 'Sin evaluaciones'
+
+                document
+                    .getElementById('total')
+                    .innerText = '0'
+
+                document
+                    .getElementById('recomendacion')
+                    .innerText = '0%'
+
+                document
+                    .getElementById('positivos')
+                    .innerText = '0%'
+
+                document
+                    .getElementById('negativos')
+                    .innerText = '0%'
+
+                // PANELS
+
+                document
+                    .getElementById('comentariosPositivos')
+                    .innerHTML = `
+    <div class="empty-state">
+    Sin comentarios positivos
     </div>
+    `
 
-</div>
-
-<div class="panel ">
-
-    <h2>
-    Estado general del servicio
-    </h2>
-
-    <div id="estadoServicio">
-
+                document
+                    .getElementById('comentariosNegativos')
+                    .innerHTML = `
+    <div class="empty-state">
+    Sin comentarios negativos
     </div>
+    `
 
-</div>
-
-<div class="panel panel-status">
-
-    <h2>
-    Comentarios recientes
-    </h2>
-<div class="comments-grid">
-
-    <!-- POSITIVOS -->
-
-    <div class="panel">
-
-        <h2>
-        Comentarios positivos
-        </h2>
-
-        <div id="comentariosPositivos">
-
-        </div>
-
+                document
+                    .getElementById('tendenciaMensual')
+                    .innerHTML = `
+    <div class="empty-state">
+    Sin información mensual
     </div>
+    `
 
-    <!-- NEGATIVOS -->
-
-    <div class="panel">
-
-        <h2>
-        Comentarios negativos
-        </h2>
-
-        <div id="comentariosNegativos">
-
-        </div>
-
+                document
+                    .getElementById('nivelesSatisfaccion')
+                    .innerHTML = `
+    <div class="empty-state">
+    Sin niveles de satisfacción
     </div>
+    `
 
-</div>
-</div>
+                document
+                    .getElementById('estadoServicio')
+                    .innerHTML = `
+    <div class="empty-state">
+    Sin información del servicio
+    </div>
+    `
 
-
-<!-- STATUS -->
-
-
-</div>
-
-</div>
-
-</div>
-
-<div id="comentariosPositivos"></div>
-<div id="comentariosNegativos"></div>
-<div id="comentariosRegulares"></div>
-<div id="rankingAsesores"></div>
-
-<div class="rating-breakdown">
-
-<div class="breakdown-row">
-<span>⭐⭐⭐⭐⭐</span>
-<div class="mini-bar">
-<div class="mini-fill" style="width:78%"></div>
-</div>
-<span>78%</span>
-</div>
-
-</div>
+                return
+            }
 
 
-<script>
+            // ======================================
+            // KPI PRINCIPALES
+            // ======================================
 
-const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
+            const promedio =
+                (
+                    data.reduce(
+                        (acc, item) =>
+                            acc + Number(item.calificacion),
+                        0
+                    ) / total
+                ).toFixed(1)
 
-const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
+            const recomendacion =
+                (
+                    data.filter(
+                        item => item.recomendaria === true
+                    ).length / total * 100
+                ).toFixed(0)
 
-const client = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-)
+            const negativos =
+                (
+                    data.filter(
+                        item => Number(item.calificacion) <= 2
+                    ).length / total * 100
+                ).toFixed(0)
 
-async function cargarDashboard(){
+            const positivos1 =
+                (
+                    data.filter(
+                        item => Number(item.calificacion) >= 4
+                    ).length / total * 100
+                ).toFixed(0)
 
-    const { data, error } = await client
-    .from('respuestas')
-    .select('*')
+            // ======================================
+            // KPI VISUAL
+            // ======================================
 
-    if(error){
+            document
+                .getElementById('promedioNumero')
+                .innerText = promedio
 
-        console.log(error)
+            document
+                .getElementById('ratingTotal')
+                .innerText = `${total} evaluaciones`
 
-        return
-    }
+            const estrellas = Math.round(promedio)
 
-    const total = data.length
+            let estrellasHTML = ''
 
-    if(total === 0){
+            for (let i = 1; i <= 5; i++) {
 
-        return
-    }
+                if (i <= estrellas) {
 
-    // =========================
-    // KPI PRINCIPALES
-    // =========================
+                    estrellasHTML += '⭐'
 
-    const promedio =
-    (
-        data.reduce(
-            (acc,item)=>acc + item.calificacion,
-            0
-        ) / total
-    ).toFixed(1)
+                } else {
 
-    const recomendacion =
-    (
-        data.filter(
-            item => item.recomendaria === true
-        ).length / total * 100
-    ).toFixed(0)
+                    estrellasHTML += '☆'
+                }
+            }
 
-    const negativos =
-    (
-        data.filter(
-            item => item.calificacion <= 2
-        ).length / total * 100
-    ).toFixed(0)
+            document
+                .getElementById('ratingStars')
+                .innerHTML = estrellasHTML
 
-    const positivos1 =
-    (
-        data.filter(
-            item => item.calificacion >= 3
-        ).length / total * 100
-    ).toFixed(0)
+            document
+                .getElementById('total')
+                .innerText = total
 
+            document
+                .getElementById('recomendacion')
+                .innerText = recomendacion + '%'
 
-// PROMEDIO VISUAL
+            document
+                .getElementById('negativos')
+                .innerText = negativos + '%'
 
-document
-.getElementById('promedioNumero')
-.innerText = promedio
+            document
+                .getElementById('positivos')
+                .innerText = positivos1 + '%'
 
-document
-.getElementById('ratingTotal')
-.innerText = `${total} evaluaciones`
+            // ======================================
+            // COMENTARIOS POSITIVOS
+            // ======================================
 
-const estrellas = Math.round(promedio)
+            const positivos = data
+                .filter(
+                    item =>
+                        Number(item.calificacion) >= 4 &&
+                        item.comentario
+                )
+                .slice(-5)
 
-let estrellasHTML = ''
+            let positivosHTML = ''
 
-for(let i=1; i<=5; i++){
+            positivos.forEach(item => {
 
-    if(i <= estrellas){
-
-        estrellasHTML += '⭐'
-
-    }else{
-
-        estrellasHTML += '☆'
-    }
-}
-
-document
-.getElementById('ratingStars')
-.innerHTML = estrellasHTML
-
-    document.getElementById('total')
-    .innerText = total
-
-    document.getElementById('recomendacion')
-    .innerText = recomendacion + '%'
-
-    document.getElementById('negativos')
-    .innerText = negativos + '%'
-
-    document.getElementById('positivos')
-    .innerText = positivos1 + '%'
-
-
-    // =========================
-    // COMENTARIOS POSITIVOS
-    // =========================
-
-    const positivos = data
-    .filter(
-        item =>
-        Number(item.calificacion) >= 4 &&
-        item.comentario
-    )
-    .slice(-5)
-
-    let positivosHTML = ''
-
-    positivos.forEach(item=>{
-
-        positivosHTML += `
+                positivosHTML += `
         <div class="comment positive">
 
             <strong>
             ⭐⭐⭐⭐⭐ Excelente experiencia
             </strong>
 
-         <p>
+            <p>
             ${item.comentario}
-        </p>
+            </p>
 
-        <small class="comment-date">
-             ${new Date(item.fecha).toLocaleDateString()}
-        </small>
+            <small class="comment-date">
+            ${new Date(item.fecha).toLocaleDateString()}
+            </small>
 
         </div>
         `
-    })
+            })
 
-    document
-    .getElementById('comentariosPositivos')
-    .innerHTML = positivosHTML
+            document
+                .getElementById('comentariosPositivos')
+                .innerHTML = positivosHTML
 
-    // =========================
-    // COMENTARIOS NEGATIVOS
-    // =========================
+            // ======================================
+            // COMENTARIOS NEGATIVOS
+            // ======================================
 
-    const comentariosNegativos = data
-    .filter(
-        item =>
-        Number(item.calificacion) <= 2 &&
-        item.comentario
-    )
-    .slice(-5)
+            const comentariosNegativos = data
+                .filter(
+                    item =>
+                        Number(item.calificacion) <= 2 &&
+                        item.comentario
+                )
+                .slice(-5)
 
-    let negativosHTML = ''
+            let negativosHTML = ''
 
-    comentariosNegativos.forEach(item=>{
+            comentariosNegativos.forEach(item => {
 
-        negativosHTML += `
+                negativosHTML += `
         <div class="comment negative">
 
             <strong>
             ⭐ Mala experiencia
             </strong>
 
-           <p>
-                ${item.comentario}
-            </p>
-
-            <small class="comment-date">
-                ${new Date(item.fecha).toLocaleDateString()}
-            </small>
-
-        </div>
-        `
-    })
-
-    // =========================
-// TENDENCIA MENSUAL REAL
-// =========================
-
-const meses = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre'
-]
-
-const tendencias = {}
-
-data.forEach(item=>{
-
-    if(!item.fecha) return
-
-    const fecha = new Date(item.fecha)
-
-    const mes = fecha.getMonth()
-
-    if(!tendencias[mes]){
-
-        tendencias[mes] = []
-    }
-
-    tendencias[mes]
-    .push(Number(item.calificacion))
-})
-
-let tendenciaHTML = ''
-
-Object.keys(tendencias).forEach(mes=>{
-
-    const calificaciones =
-    tendencias[mes]
-
-    const promedioMes =
-    (
-        calificaciones.reduce(
-            (a,b)=>a+b,
-            0
-        ) / calificaciones.length
-    ).toFixed(1)
-
-    const porcentaje =
-    (promedioMes / 5) * 100
-
-    let estrellas = ''
-
-    for(let i=1; i<=5; i++){
-
-        if(i <= Math.round(promedioMes)){
-
-            estrellas += '⭐'
-
-        }else{
-
-            estrellas += '☆'
-        }
-    }
-
-    tendenciaHTML += `
-
-    <div class="trend">
-
-        <div class="trend-header">
-
-            <span>
-            ${meses[mes]}
-            </span>
-
-            <span class="trend-rating">
-
-            ${promedioMes}
-            ${estrellas}
-
-            </span>
-
-        </div>
-
-        <div class="bar">
-
-            <div
-            class="bar-fill"
-            style="width:${porcentaje}%">
-            </div>
-
-        </div>
-
-    </div>
-    `
-})
-
-document
-.getElementById('tendenciaMensual')
-.innerHTML = tendenciaHTML
-
-    document
-    .getElementById('comentariosNegativos')
-    .innerHTML = negativosHTML
-
-    //===========================
-    // =========================
-    // COMENTARIOS REGULARES
-    // =========================
-
-    const comentariosRegulares = data
-    .filter(
-        item =>
-        Number(item.calificacion) == 3 &&
-        item.comentario
-    )
-    .slice(-5)
-
-    let regularesHTML = ''
-
-    comentariosRegulares.forEach(item=>{
-
-        regularesHTML += `
-        <div class="comment regular">
-
-            <strong>
-            ⭐ experiencia Regular
-            </strong>
-
             <p>
             ${item.comentario}
             </p>
 
+            <small class="comment-date">
+            ${new Date(item.fecha).toLocaleDateString()}
+            </small>
+
         </div>
         `
-    })
+            })
 
-    document
-    .getElementById('comentariosRegulares')
-    .innerHTML = regularesHTML
+            document
+                .getElementById('comentariosNegativos')
+                .innerHTML = negativosHTML
 
+            // ======================================
+            // TENDENCIA MENSUAL
+            // ======================================
 
-    // =========================
-    // NIVELES SATISFACCION
-    // =========================
+            const meses = [
+                'Enero',
+                'Febrero',
+                'Marzo',
+                'Abril',
+                'Mayo',
+                'Junio',
+                'Julio',
+                'Agosto',
+                'Septiembre',
+                'Octubre',
+                'Noviembre',
+                'Diciembre'
+            ]
 
-    const muyMala =
-    data.filter(
-        item => Number(item.calificacion) == 1
-    ).length
+            const tendencias = {}
 
-    const mala =
-    data.filter(
-        item => Number(item.calificacion)== 2
-    ).length
+            data.forEach(item => {
 
-    const regular =
-    data.filter(
-        item => Number(item.calificacion) == 3
-    ).length
+                if (!item.fecha) return
 
-    const buena =
-    data.filter(
-        item => Number(item.calificacion) == 4
-    ).length
+                const fecha =
+                    new Date(item.fecha)
 
-    const excelente =
-    data.filter(
-        item => Number(item.calificacion) == 5
-    ).length
+                const mes =
+                    fecha.getMonth()
 
-    document
-    .getElementById('nivelesSatisfaccion')
-    .innerHTML = `
+                if (!tendencias[mes]) {
+
+                    tendencias[mes] = []
+                }
+
+                tendencias[mes]
+                    .push(
+                        Number(item.calificacion)
+                    )
+            })
+
+            let tendenciaHTML = ''
+
+            Object.keys(tendencias).forEach(mes => {
+
+                const calificaciones =
+                    tendencias[mes]
+
+                const promedioMes =
+                    (
+                        calificaciones.reduce(
+                            (a, b) => a + b,
+                            0
+                        ) / calificaciones.length
+                    ).toFixed(1)
+
+                const porcentaje =
+                    (promedioMes / 5) * 100
+
+                let estrellas = ''
+
+                for (let i = 1; i <= 5; i++) {
+
+                    if (i <= Math.round(promedioMes)) {
+
+                        estrellas += '⭐'
+
+                    } else {
+
+                        estrellas += '☆'
+                    }
+                }
+
+                tendenciaHTML += `
+
+        <div class="trend">
+
+            <div class="trend-header">
+
+                <span>
+                ${meses[mes]}
+                </span>
+
+                <span class="trend-rating">
+
+                ${promedioMes}
+                ${estrellas}
+
+                </span>
+
+            </div>
+
+            <div class="bar">
+
+                <div
+                class="bar-fill"
+                style="width:${porcentaje}%">
+                </div>
+
+            </div>
+
+        </div>
+        `
+            })
+
+            document
+                .getElementById('tendenciaMensual')
+                .innerHTML = tendenciaHTML
+
+            // ======================================
+            // NIVELES SATISFACCION
+            // ======================================
+
+            const muyMala =
+                data.filter(
+                    item => Number(item.calificacion) == 1
+                ).length
+
+            const mala =
+                data.filter(
+                    item => Number(item.calificacion) == 2
+                ).length
+
+            const regular =
+                data.filter(
+                    item => Number(item.calificacion) == 3
+                ).length
+
+            const buena =
+                data.filter(
+                    item => Number(item.calificacion) == 4
+                ).length
+
+            const excelente =
+                data.filter(
+                    item => Number(item.calificacion) == 5
+                ).length
+
+            document
+                .getElementById('nivelesSatisfaccion')
+                .innerHTML = `
 
     <div class="status">
 
@@ -1157,7 +1507,7 @@ document
 
         <div class="bar">
             <div class="bar-fill"
-            style="width:${muyMala*10}%">
+            style="width:${muyMala * 10}%">
             </div>
         </div>
 
@@ -1172,7 +1522,7 @@ document
 
         <div class="bar">
             <div class="bar-fill"
-            style="width:${mala*10}%">
+            style="width:${mala * 10}%">
             </div>
         </div>
 
@@ -1187,7 +1537,7 @@ document
 
         <div class="bar">
             <div class="bar-fill"
-            style="width:${regular*10}%">
+            style="width:${regular * 10}%">
             </div>
         </div>
 
@@ -1202,7 +1552,7 @@ document
 
         <div class="bar">
             <div class="bar-fill"
-            style="width:${buena*10}%">
+            style="width:${buena * 10}%">
             </div>
         </div>
 
@@ -1217,167 +1567,1111 @@ document
 
         <div class="bar">
             <div class="bar-fill"
-            style="width:${excelente*10}%">
+            style="width:${excelente * 10}%">
             </div>
         </div>
 
     </div>
     `
-    // =========================
-// ESTADO GENERAL SERVICIO
-// =========================
 
-// SATISFACCION GENERAL
+            // ======================================
+            // ESTADO GENERAL SERVICIO
+            // ======================================
 
-const satisfaccionGeneral =
-(
-    data.reduce(
-        (acc,item)=>
-        acc + Number(item.calificacion),
-        0
-    ) / total / 5
-) * 100
+            const satisfaccionGeneral =
+                (
+                    data.reduce(
+                        (acc, item) =>
+                            acc + Number(item.calificacion),
+                        0
+                    ) / total / 5
+                ) * 100
 
-// RECOMENDACION
+            const recomendacionGeneral =
+                (
+                    data.filter(
+                        item => item.recomendaria === true
+                    ).length / total
+                ) * 100
 
-const recomendacionGeneral =
-(
-    data.filter(
-        item => item.recomendaria === true
-    ).length / total
-) * 100
+            const tiempoAdecuado =
+                (
+                    data.filter(
+                        item =>
+                            item.tiempo_atencion === true
+                    ).length / total
+                ) * 100
 
-// TIEMPO ATENCION
+            const calidadAtencion =
+                (
+                    data.filter(item => {
 
-const tiempoAdecuado =
-(
-    data.filter(
-        item =>
-        item.tiempo_atencion === true
-    ).length / total
-) * 100
+                        if (!item.amabilidad) return false
 
-// CALIDAD ATENCION
+                        const valor =
+                            item.amabilidad
+                                .toString()
+                                .toLowerCase()
 
-const calidadAtencion =
-(
-    data.filter(
-        item =>
-        item.amabilidad === 'Si' ||
-        item.amabilidad === 'Parcialmente'
-    ).length / total
-) * 100
+                        return (
+                            valor === 'si' ||
+                            valor === 'sí' ||
+                            valor === 'parcialmente'
+                        )
 
-document
-.getElementById('estadoServicio')
-.innerHTML = `
+                    }).length / total
+                ) * 100
 
-<div class="status">
+            document
+                .getElementById('estadoServicio')
+                .innerHTML = `
 
-    <div class="status-header">
+    <div class="status">
 
-        <span>
-        Satisfacción general
-        </span>
+        <div class="status-header">
 
-        <span class="status-value">
-        ${satisfaccionGeneral.toFixed(0)}%
-        </span>
+            <span>
+            Satisfacción general
+            </span>
 
-    </div>
+            <span class="status-value">
+            ${satisfaccionGeneral.toFixed(0)}%
+            </span>
 
-    <div class="bar">
+        </div>
 
-        <div
-        class="bar-fill"
-        style="width:${satisfaccionGeneral}%">
+        <div class="bar">
+
+            <div
+            class="bar-fill"
+            style="width:${satisfaccionGeneral}%">
+            </div>
+
         </div>
 
     </div>
 
-</div>
+    <div class="status">
 
-<div class="status">
+        <div class="status-header">
 
-    <div class="status-header">
+            <span>
+            Recomendación
+            </span>
 
-        <span>
-        Recomendación
-        </span>
+            <span class="status-value">
+            ${recomendacionGeneral.toFixed(0)}%
+            </span>
 
-        <span class="status-value">
-        ${recomendacionGeneral.toFixed(0)}%
-        </span>
+        </div>
 
-    </div>
+        <div class="bar">
 
-    <div class="bar">
+            <div
+            class="bar-fill"
+            style="width:${recomendacionGeneral}%">
+            </div>
 
-        <div
-        class="bar-fill"
-        style="width:${recomendacionGeneral}%">
         </div>
 
     </div>
 
-</div>
+    <div class="status">
 
-<div class="status">
+        <div class="status-header">
 
-    <div class="status-header">
+            <span>
+            Tiempo atención
+            </span>
 
-        <span>
-        Tiempo atención
-        </span>
+            <span class="status-value">
+            ${tiempoAdecuado.toFixed(0)}%
+            </span>
 
-        <span class="status-value">
-        ${tiempoAdecuado.toFixed(0)}%
-        </span>
+        </div>
 
-    </div>
+        <div class="bar">
 
-    <div class="bar">
+            <div
+            class="bar-fill"
+            style="width:${tiempoAdecuado}%">
+            </div>
 
-        <div
-        class="bar-fill"
-        style="width:${tiempoAdecuado}%">
         </div>
 
     </div>
 
-</div>
+    <div class="status">
 
-<div class="status">
+        <div class="status-header">
 
-    <div class="status-header">
+            <span>
+            Calidad atención
+            </span>
 
-        <span>
-        Calidad atención
-        </span>
+            <span class="status-value">
+            ${calidadAtencion.toFixed(0)}%
+            </span>
 
-        <span class="status-value">
-        ${calidadAtencion.toFixed(0)}%
-        </span>
+        </div>
 
-    </div>
+        <div class="bar">
 
-    <div class="bar">
+            <div
+            class="bar-fill"
+            style="width:${calidadAtencion}%">
+            </div>
 
-        <div
-        class="bar-fill"
-        style="width:${calidadAtencion}%">
         </div>
 
     </div>
+    `
 
-</div>
-`
-}
+            // ======================================
+            // RESUMEN GENERAL CONTRATOS
+            // ======================================
 
-cargarDashboard()
+            const { data: contratosData } =
+                await client
+                    .from('respuestas')
+                    .select('*')
 
-</script>
+            const resumen = {}
 
+            contratosData.forEach(item => {
+
+                if (!item.contrato) return
+
+                if (!resumen[item.contrato]) {
+
+                    resumen[item.contrato] = []
+                }
+
+                resumen[item.contrato]
+                    .push(item)
+            })
+
+            let resumenHTML = ''
+
+            Object.keys(resumen).forEach(nombre => {
+
+                const registros =
+                    resumen[nombre]
+
+                const total =
+                    registros.length
+
+                const promedio =
+                    (
+                        registros.reduce(
+                            (acc, item) =>
+                                acc + Number(item.calificacion),
+                            0
+                        ) / total
+                    ).toFixed(1)
+
+                const recomendacion =
+                    (
+                        registros.filter(
+                            item => item.recomendaria === true
+                        ).length / total * 100
+                    ).toFixed(0)
+
+                resumenHTML += `
+
+    <div class="contract-item">
+
+        <div class="contract-info">
+
+            <h3>
+            ${nombre}
+            </h3>
+
+            <p>
+            ${total} respuestas
+            </p>
+
+            <p>
+            Recomendación:
+            ${recomendacion}%
+            </p>
+
+        </div>
+
+        <div class="contract-score">
+
+            ${promedio} ⭐
+
+        </div>
+
+    </div>
+    `
+            })
+
+            document
+                .getElementById('resumenContratos')
+                .innerHTML =
+                resumenHTML
+        }
+
+        // ======================================
+        // EVENTOS
+        // ======================================
+
+        document
+            .getElementById('filtroContrato')
+            .addEventListener(
+                'change',
+                cargarDashboard
+            )
+
+        // ======================================
+        // INICIALIZAR
+        // ======================================
+
+        cargarFiltroContratos()
+        cargarDashboard()
+
+        async function exportarExcel() {
+
+            let query = client
+                .from('respuestas')
+                .select('*')
+
+            // ======================================
+            // FILTRO CONTRATO
+            // ======================================
+
+            const contrato =
+                document
+                    .getElementById('filtroContrato')
+                    .value
+
+            if (contrato !== 'todos') {
+
+                query = query.eq(
+                    'contrato',
+                    contrato
+                )
+            }
+
+            // ======================================
+            // FILTRO FECHAS
+            // ======================================
+
+            const fechaInicio =
+                document
+                    .getElementById('fechaInicio')
+                    .value
+
+            const fechaFin =
+                document
+                    .getElementById('fechaFin')
+                    .value
+
+            if (fechaInicio) {
+
+                query = query.gte(
+                    'fecha',
+                    fechaInicio
+                )
+            }
+
+            if (fechaFin) {
+
+                query = query.lte(
+                    'fecha',
+                    fechaFin + 'T23:59:59'
+                )
+            }
+
+            // ======================================
+            // CONSULTAR DATOS
+            // ======================================
+
+            const { data, error } =
+                await query
+
+            if (error) {
+
+                console.log(error)
+                return
+            }
+
+            if (data.length === 0) {
+
+                alert(
+                    'No hay información para exportar'
+                )
+
+                return
+            }
+
+            // ======================================
+            // KPI RESUMEN
+            // ======================================
+
+            const total =
+                data.length
+
+            const promedio =
+                (
+                    data.reduce(
+                        (acc, item) =>
+                            acc + Number(item.calificacion),
+                        0
+                    ) / total
+                ).toFixed(1)
+
+            const recomendacion =
+                (
+                    data.filter(
+                        item => item.recomendaria === true
+                    ).length / total * 100
+                ).toFixed(0)
+
+            const positivos =
+                (
+                    data.filter(
+                        item => Number(item.calificacion) >= 4
+                    ).length / total * 100
+                ).toFixed(0)
+
+            const negativos =
+                (
+                    data.filter(
+                        item => Number(item.calificacion) <= 2
+                    ).length / total * 100
+                ).toFixed(0)
+
+            // ======================================
+            // WORKBOOK
+            // ======================================
+
+            const workbook =
+                XLSX.utils.book_new()
+
+            // ======================================
+            // HOJA RESUMEN
+            // ======================================
+
+            const resumenData = [
+
+                ['REPORTE SATISFACCIÓN USUARIO'],
+
+                [],
+
+                ['Contrato',
+                    contrato === 'todos'
+                        ? 'Todos'
+                        : contrato],
+
+                ['Fecha inicio',
+                    fechaInicio || 'Todas'],
+
+                ['Fecha fin',
+                    fechaFin || 'Todas'],
+
+                [],
+
+                ['KPI', 'Valor'],
+
+                ['Promedio satisfacción',
+                    promedio + ' ⭐'],
+
+                ['Total respuestas',
+                    total],
+
+                ['Recomendación',
+                    recomendacion + '%'],
+
+                ['Comentarios positivos',
+                    positivos + '%'],
+
+                ['Comentarios negativos',
+                    negativos + '%']
+            ]
+
+            const resumenSheet =
+                XLSX.utils.aoa_to_sheet(
+                    resumenData
+                )
+
+            // ANCHOS COLUMNAS
+
+            resumenSheet['!cols'] = [
+
+                { wch: 30 },
+                { wch: 25 }
+            ]
+
+            // FILTRO
+
+            resumenSheet['!autofilter'] = {
+                ref: 'A7:B12'
+            }
+
+            // ======================================
+            // HOJA DETALLE
+            // ======================================
+
+            const detalleData =
+                data.map(item => ({
+
+                    Fecha:
+                        new Date(item.fecha)
+                            .toLocaleDateString(),
+
+                    Contrato:
+                        item.contrato,
+
+                    Calificacion:
+                        item.calificacion,
+
+                    Recomendaria:
+                        item.recomendaria
+                            ? 'Sí'
+                            : 'No',
+
+                    TiempoAtencion:
+                        item.tiempo_atencion
+                            ? 'Sí'
+                            : 'No',
+
+                    Amabilidad:
+                        item.amabilidad,
+
+                    Comentario:
+                        item.comentario || ''
+                }))
+
+            const detalleSheet =
+                XLSX.utils.json_to_sheet(
+                    detalleData
+                )
+
+            // FILTROS AUTOMATICOS
+
+            detalleSheet['!autofilter'] = {
+                ref:
+                    `A1:G${detalleData.length + 1}`
+            }
+
+            // ANCHOS COLUMNAS
+
+            detalleSheet['!cols'] = [
+
+                { wch: 15 },
+                { wch: 30 },
+                { wch: 15 },
+                { wch: 15 },
+                { wch: 18 },
+                { wch: 18 },
+                { wch: 50 }
+            ]
+
+            // ======================================
+            // HOJA ESTADISTICAS
+            // ======================================
+
+            const estadisticas = {}
+
+            data.forEach(item => {
+
+                if (!estadisticas[item.contrato]) {
+
+                    estadisticas[item.contrato] = []
+                }
+
+                estadisticas[item.contrato]
+                    .push(
+                        Number(item.calificacion)
+                    )
+            })
+
+            const estadisticasData = []
+
+            Object.keys(estadisticas)
+                .forEach(nombre => {
+
+                    const registros =
+                        estadisticas[nombre]
+
+                    const promedio =
+                        (
+                            registros.reduce(
+                                (a, b) => a + b,
+                                0
+                            ) / registros.length
+                        ).toFixed(1)
+
+                    estadisticasData.push({
+
+                        Contrato: nombre,
+
+                        Total:
+                            registros.length,
+
+                        Promedio:
+                            promedio + ' ⭐'
+                    })
+                })
+
+            const estadisticasSheet =
+                XLSX.utils.json_to_sheet(
+                    estadisticasData
+                )
+
+            estadisticasSheet['!cols'] = [
+
+                { wch: 35 },
+                { wch: 15 },
+                { wch: 20 }
+            ]
+
+            // ======================================
+            // AGREGAR HOJAS
+            // ======================================
+
+            XLSX.utils.book_append_sheet(
+                workbook,
+                resumenSheet,
+                'Resumen'
+            )
+
+            XLSX.utils.book_append_sheet(
+                workbook,
+                detalleSheet,
+                'Detalle'
+            )
+
+            XLSX.utils.book_append_sheet(
+                workbook,
+                estadisticasSheet,
+                'Estadísticas'
+            )
+
+            // ======================================
+            // DESCARGAR
+            // ======================================
+
+            XLSX.writeFile(
+                workbook,
+                `Reporte_Satisfaccion_${Date.now()}.xlsx`
+            )
+        }
+
+        async function exportarPDF() {
+
+            // ======================================
+            // FILTROS
+            // ======================================
+
+            const contrato =
+                document.getElementById('filtroContrato').value
+
+            const fechaInicio =
+                document.getElementById('fechaInicio').value
+
+            const fechaFin =
+                document.getElementById('fechaFin').value
+
+            // ======================================
+            // CONSULTAR DATOS
+            // ======================================
+
+            let query = client
+                .from('respuestas')
+                .select('*')
+
+            // FILTRO CONTRATO
+
+            if (contrato !== 'todos') {
+
+                query = query.eq(
+                    'contrato',
+                    contrato
+                )
+            }
+
+            // FILTRO FECHA INICIO
+
+            if (fechaInicio) {
+
+                query = query.gte(
+                    'fecha',
+                    fechaInicio
+                )
+            }
+
+            // FILTRO FECHA FIN
+
+            if (fechaFin) {
+
+                query = query.lte(
+                    'fecha',
+                    fechaFin + 'T23:59:59'
+                )
+            }
+
+            const { data, error } =
+                await query
+
+            if (error) {
+
+                console.log(error)
+
+                return
+            }
+
+            if (data.length === 0) {
+
+                alert(
+                    'No hay información para exportar'
+                )
+
+                return
+            }
+
+            // ======================================
+            // PDF
+            // ======================================
+
+            const { jsPDF } = window.jspdf
+
+            const doc = new jsPDF()
+
+            // ======================================
+            // KPIs
+            // ======================================
+
+            const total = data.length
+
+            const promedio =
+                (
+                    data.reduce(
+                        (acc, item) =>
+                            acc + Number(item.calificacion),
+                        0
+                    ) / total
+                ).toFixed(1)
+
+            const recomendacion =
+                (
+                    data.filter(
+                        item =>
+                            item.recomendaria === true
+                    ).length / total * 100
+                ).toFixed(0)
+
+            const positivos =
+                (
+                    data.filter(
+                        item =>
+                            Number(item.calificacion) >= 4
+                    ).length / total * 100
+                ).toFixed(0)
+
+            const negativos =
+                (
+                    data.filter(
+                        item =>
+                            Number(item.calificacion) <= 2
+                    ).length / total * 100
+                ).toFixed(0)
+
+            // ======================================
+            // COLORES
+            // ======================================
+
+            const azul = [13, 71, 161]
+
+            const gris = [120, 120, 120]
+
+            // ======================================
+            // HEADER
+            // ======================================
+
+            doc.setFillColor(...azul)
+
+            doc.rect(
+                0,
+                0,
+                220,
+                35,
+                'F'
+            )
+
+            doc.setTextColor(255, 255, 255)
+
+            doc.setFontSize(22)
+
+            doc.setFont(
+                'helvetica',
+                'bold'
+            )
+
+            doc.text(
+                'ETICOS',
+                20,
+                18
+            )
+
+            doc.setFontSize(11)
+
+            doc.setFont(
+                'helvetica',
+                'normal'
+            )
+
+            doc.text(
+                'Reporte Ejecutivo de Satisfacción',
+                20,
+                26
+            )
+
+            // FECHA
+
+            doc.setTextColor(230, 230, 230)
+
+            doc.setFontSize(10)
+
+            doc.text(
+                'Fecha generación',
+                150,
+                16
+            )
+
+            doc.text(
+                new Date().toLocaleDateString(),
+                150,
+                23
+            )
+
+            // ======================================
+            // FILTROS PREMIUM
+            // ======================================
+
+            const filtroY = 45
+
+            // CONTRATO
+
+            doc.setFillColor(245, 248, 255)
+
+            doc.roundedRect(
+                15,
+                filtroY,
+                60,
+                20,
+                4,
+                4,
+                'F'
+            )
+
+            doc.setTextColor(...gris)
+
+            doc.setFontSize(9)
+
+            doc.text(
+                'Contrato',
+                20,
+                filtroY + 7
+            )
+
+            doc.setTextColor(...azul)
+
+            doc.setFontSize(11)
+
+            doc.setFont(
+                'helvetica',
+                'bold'
+            )
+
+            doc.text(
+                contrato === 'todos'
+                    ? 'Todos los contratos'
+                    : contrato,
+                20,
+                filtroY + 15
+            )
+
+            // PERIODO
+
+            doc.setFillColor(245, 248, 255)
+
+            doc.roundedRect(
+                82,
+                filtroY,
+                90,
+                20,
+                4,
+                4,
+                'F'
+            )
+
+            doc.setTextColor(...gris)
+
+            doc.setFontSize(9)
+
+            doc.setFont(
+                'helvetica',
+                'normal'
+            )
+
+            doc.text(
+                'Periodo',
+                87,
+                filtroY + 7
+            )
+
+            doc.setTextColor(...azul)
+
+            doc.setFontSize(10)
+
+            doc.setFont(
+                'helvetica',
+                'bold'
+            )
+
+            doc.text(
+                `${fechaInicio || 'Inicio'} al ${fechaFin || 'Actual'}`,
+                87,
+                filtroY + 15
+            )
+
+            // ======================================
+            // KPI CARDS
+            // ======================================
+
+            const cards = [
+
+                {
+                    titulo: 'Promedio',
+                    valor: promedio
+                },
+
+                {
+                    titulo: 'Respuestas',
+                    valor: total
+                },
+
+                {
+                    titulo: 'Recomendación',
+                    valor: `${recomendacion}%`
+                },
+
+                {
+                    titulo: 'Positivos',
+                    valor: `${positivos}%`
+                },
+
+                {
+                    titulo: 'Negativos',
+                    valor: `${negativos}%`
+                }
+            ]
+
+            const cardWidth = 34
+            const cardHeight = 32
+            const spacing = 5
+
+            let x = 15
+
+            const y = 75
+
+            cards.forEach(card => {
+
+                doc.setFillColor(245, 248, 255)
+
+                doc.roundedRect(
+                    x,
+                    y,
+                    cardWidth,
+                    cardHeight,
+                    4,
+                    4,
+                    'F'
+                )
+
+                // TITULO
+
+                doc.setTextColor(...gris)
+
+                doc.setFontSize(9)
+
+                doc.setFont(
+                    'helvetica',
+                    'normal'
+                )
+
+                doc.text(
+                    card.titulo,
+                    x + 4,
+                    y + 8
+                )
+
+                // VALOR
+
+                doc.setTextColor(...azul)
+
+                doc.setFontSize(18)
+
+                doc.setFont(
+                    'helvetica',
+                    'bold'
+                )
+
+                doc.text(
+                    String(card.valor),
+                    x + 4,
+                    y + 20
+                )
+
+                // ESTRELLAS PROMEDIO
+
+                if (card.titulo === 'Promedio') {
+
+                    const estrellas =
+                        Math.round(promedio)
+
+                    let estrellasTexto = ''
+
+                    for (let i = 1; i <= 5; i++) {
+
+                        if (i <= estrellas) {
+
+                            estrellasTexto += '* '
+
+                        } else {
+
+                            estrellasTexto += '- '
+                        }
+                    }
+
+                    doc.setTextColor(255, 193, 7)
+
+                    doc.setFontSize(10)
+
+                    doc.text(
+                        estrellasTexto,
+                        x + 4,
+                        y + 28
+                    )
+                }
+
+                x += cardWidth + spacing
+            })
+
+            // ======================================
+            // TITULO TABLA
+            // ======================================
+
+            doc.setTextColor(...azul)
+
+            doc.setFontSize(16)
+
+            doc.text(
+                'Comentarios destacados',
+                20,
+                125
+            )
+
+            // ======================================
+            // TABLA
+            // ======================================
+
+            const comentarios =
+                data
+                    .filter(
+                        item => item.comentario
+                    )
+                    .slice(-10)
+
+            const rows =
+                comentarios.map(item => ([
+
+                    new Date(item.fecha)
+                        .toLocaleDateString(),
+
+                    item.contrato || '-',
+
+                    `${item.calificacion}/5`,
+
+                    item.comentario
+                ]))
+
+            doc.autoTable({
+
+                startY: 135,
+
+                head: [[
+                    'Fecha',
+                    'Contrato',
+                    'Calificación',
+                    'Comentario'
+                ]],
+
+                body: rows,
+
+                styles: {
+
+                    fontSize: 10,
+
+                    cellPadding: 4
+                },
+
+                headStyles: {
+
+                    fillColor: azul
+                },
+
+                alternateRowStyles: {
+
+                    fillColor: [248, 250, 252]
+                },
+
+                columnStyles: {
+
+                    0: { cellWidth: 28 },
+
+                    1: { cellWidth: 45 },
+
+                    2: { cellWidth: 28 },
+
+                    3: { cellWidth: 80 }
+                }
+            })
+
+            // ======================================
+            // FOOTER
+            // ======================================
+
+            const finalY =
+                doc.lastAutoTable.finalY + 15
+
+            doc.setFontSize(10)
+
+            doc.setTextColor(...gris)
+
+            doc.text(
+                'Reporte generado automáticamente por Sistema ETICOS CX',
+                20,
+                finalY
+            )
+
+            // ======================================
+            // DESCARGAR
+            // ======================================
+
+            doc.save(
+                `Reporte_Ejecutivo_${Date.now()}.pdf`
+            )
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </body>
 
 </html>
