@@ -101,7 +101,7 @@ textarea{
 .logo{
     width:260px;
     height:100px;
-    border:2px dashed #0d47a1;
+    /*border:2px dashed #0d47a1;*/
     border-radius:20px;
     background:white;
 
@@ -220,7 +220,7 @@ textarea{
 <input
     type="radio"
     name="tiempo"
-    value="Si"
+    value="true"
     required
 >
 <span>
@@ -232,7 +232,7 @@ Sí
 <input
     type="radio"
     name="tiempo"
-    value="No"
+    value="false"
     required
 >
 <span>
@@ -369,7 +369,7 @@ const { data, error } = await client
 .insert([
 {
     calificacion: calificacion,
-    tiempo_atencion: tiempo,
+    tiempo_atencion: tiempo === 'true',
     amabilidad: amabilidad,
     recomendaria: recomendaria === 'true',
     comentario: comentario

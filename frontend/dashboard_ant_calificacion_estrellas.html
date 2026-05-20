@@ -64,16 +64,11 @@ body{
     gap:20px;
 }
 
-/*.header h1{
+.header h1{
     font-size:42px;
     color:#0d47a1;
-}*/
-
-.header h1{
-    font-size:48px;
-    font-weight:800;
-    color:#0d47a1;
 }
+
 .header p{
     color:#666;
     margin-top:10px;
@@ -83,7 +78,7 @@ body{
 .logo{
     width:260px;
     height:100px;
-   /*border:2px dashed #0d47a1;*/
+    border:2px dashed #0d47a1;
     border-radius:20px;
     display:flex;
     justify-content:center;
@@ -95,42 +90,19 @@ body{
 /* KPI CARDS */
 
 .cards{
-
     display:grid;
-
-    grid-template-columns:
-    repeat(auto-fit,minmax(260px,1fr));
-
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
     gap:25px;
-
     margin-bottom:30px;
-
-    align-items:stretch;
 }
 
 .card{
-
     background:white;
-
     padding:30px;
-
     border-radius:30px;
-
     box-shadow:0 10px 30px rgba(0,0,0,.08);
-
     transition:.3s;
-
-    min-height:220px;
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:justify;
-
-    align-items:center;
 }
-
 
 .card:hover{
     transform:translateY(-5px);
@@ -138,7 +110,7 @@ body{
 
 .card h2{
     color:#666;
-    font-size:18px;
+    font-size:16px;
 }
 
 .card .value{
@@ -171,7 +143,7 @@ body{
 
 /* TRENDS */
 
-/*.trend{
+.trend{
     margin-bottom:25px;
 }
 
@@ -179,59 +151,6 @@ body{
     display:flex;
     justify-content:space-between;
     margin-bottom:10px;
-}*/
-
-/* TENDENCIA MENSUAL */
-
-.trend{
-
-    margin-bottom:28px;
-}
-
-.trend-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:10px;
-
-    font-size:15px;
-
-    font-weight:600;
-}
-
-.trend-rating{
-
-    color:#f5b301;
-
-    font-weight:bold;
-}
-
-.bar{
-
-    width:100%;
-
-    height:16px;
-
-    background:#e5e7eb;
-
-    border-radius:20px;
-
-    overflow:hidden;
-}
-
-.bar-fill{
-
-    height:100%;
-
-    background:#0d47a1;
-
-    border-radius:20px;
-
-    transition:1s;
 }
 
 .bar{
@@ -276,7 +195,7 @@ body{
 
 /* STATUS */
 
-/*.status{
+.status{
     margin-bottom:25px;
 }
 
@@ -284,59 +203,6 @@ body{
     display:flex;
     justify-content:space-between;
     margin-bottom:10px;
-}*/
-
-/* ESTADO GENERAL */
-
-.status{
-
-    margin-bottom:28px;
-}
-
-.status-header{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:10px;
-
-    font-size:15px;
-
-    font-weight:600;
-}
-
-.status-value{
-
-    color:#0d47a1;
-
-    font-weight:bold;
-}
-
-.bar{
-
-    width:100%;
-
-    height:16px;
-
-    background:#e5e7eb;
-
-    border-radius:20px;
-
-    overflow:hidden;
-}
-
-.bar-fill{
-
-    height:100%;
-
-    background:#0d47a1;
-
-    border-radius:20px;
-
-    transition:1s;
 }
 
 /* POSITIVOS */
@@ -381,73 +247,7 @@ body{
     color:#dc2626;
 }
 
-/* RATING MODERNO */
-/* =========================
-RATING MODERNO
-========================= */
 
-.rating-container{
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    margin-top:15px;
-
-    width:100%;
-}
-
-.rating-number{
-
-    font-size:52px;
-
-    font-weight:bold;
-
-    color:#0d47a1;
-
-    line-height:1;
-}
-
-.rating-stars{
-
-    margin-top:10px;
-
-    font-size:30px;
-
-    color:#f5b301;
-
-    letter-spacing:1px;
-
-    line-height:1.2;
-
-    word-break:break-word;
-}
-
-.rating-total{
-
-    margin-top:10px;
-
-    font-size:15px;
-
-    color:#666;
-}
-
-.rating-label{
-
-    margin-top:15px;
-
-    text-align:center;
-
-    color:#666;
-
-    font-size:15px;
-
-    line-height:1.4;
-}
 
 /* RESPONSIVE */
 
@@ -503,21 +303,16 @@ Sistema de satisfacción y experiencia del usuario
 </div>
 
 <div class="logo">
-
-<img
-    id="logoEmpresa"
-    src="../img/logo.png"
-    alt="Logo ETICOS"
-/>
-
+ESPACIO PARA LOGO ETICOS
 </div>
+
 </div>
 
 <!-- KPI CARDS -->
 
 <div class="cards">
 
-    <!-- PROMEDIO -->
+    <!-- PROMEDIO SATISFACCION -->
 
     <div class="card">
 
@@ -545,10 +340,10 @@ Sistema de satisfacción y experiencia del usuario
             0 evaluaciones
             </div>
 
-            <div class="rating-label">
-            Nivel general del servicio
-            </div>
+        </div>
 
+        <div class="rating-label">
+        Nivel general del servicio
         </div>
 
     </div>
@@ -585,7 +380,7 @@ Sistema de satisfacción y experiencia del usuario
 
     </div>
 
-    <!-- POSITIVOS -->
+    <!-- COMENTARIOS POSITIVOS -->
 
     <div class="card">
 
@@ -601,7 +396,7 @@ Sistema de satisfacción y experiencia del usuario
 
     </div>
 
-    <!-- NEGATIVOS -->
+    <!-- COMENTARIOS NEGATIVOS -->
 
     <div class="card">
 
@@ -618,42 +413,114 @@ Sistema de satisfacción y experiencia del usuario
     </div>
 
 </div>
+
 <!-- CONTENT -->
 
 <div class="content">
 
-    <!-- TENDENCIA -->
+<!-- TENDENCIA -->
 
-    <div class="panel">
+<div class="panel">
 
-        <h2>
-        Tendencia mensual
-        </h2>
+<h2>
+Tendencia mensual
+</h2>
 
-        <div id="tendenciaMensual">
+<div class="trend">
 
-        </div>
+<div class="trend-header">
+<span>Enero</span>
+<span>4.1 ⭐</span>
+</div>
 
-    </div>
+<div class="bar">
+<div class="bar-fill" style="width:82%"></div>
+</div>
 
-    <!-- RANKING / DISTRIBUCION -->
+</div>
 
-    <div class="panel">
+<div class="trend">
 
-        <h2>
-        Ranking satisfacción
-        </h2>
+<div class="trend-header">
+<span>Febrero</span>
+<span>4.3 ⭐</span>
+</div>
 
-        <div id="nivelesSatisfaccion">
+<div class="bar">
+<div class="bar-fill" style="width:86%"></div>
+</div>
 
-        </div>
+</div>
 
-    </div>
+<div class="trend">
+
+<div class="trend-header">
+<span>Marzo</span>
+<span>4.5 ⭐</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:90%"></div>
+</div>
+
+</div>
+
+<div class="trend">
+
+<div class="trend-header">
+<span>Abril</span>
+<span>4.7 ⭐</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:94%"></div>
+</div>
+
+</div>
 
 </div>
 
 <!-- RANKING -->
 
+<div class="panel">
+
+<h2>
+Ranking asesores
+</h2>
+
+<div class="ranking-item">
+<div>
+<strong>#1 Laura Gómez</strong>
+</div>
+
+<div>
+4.9 ⭐
+</div>
+</div>
+
+<div class="ranking-item">
+<div>
+<strong>#2 Carlos Pérez</strong>
+</div>
+
+<div>
+4.8 ⭐
+</div>
+</div>
+
+<div class="ranking-item">
+<div>
+<strong>#3 Ana Rodríguez</strong>
+</div>
+
+<div>
+4.7 ⭐
+</div>
+</div>
+
+</div>
+
+</div>
 
 <!-- LOWER CONTENT -->
 
@@ -697,15 +564,49 @@ Cliente indica falta de claridad en la información.
 
 <div class="panel">
 
-    <h2>
-    Estado general del servicio
-    </h2>
+<h2>
+Estado general del servicio
+</h2>
 
-    <div id="estadoServicio">
+<div class="status">
 
-    </div>
+<div class="status-header">
+<span>Satisfacción general</span>
+<span>96%</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:96%"></div>
+</div>
 
 </div>
+
+<div class="status">
+
+<div class="status-header">
+<span>Recomendación</span>
+<span>92%</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:92%"></div>
+</div>
+
+</div>
+
+<div class="status">
+
+<div class="status-header">
+<span>Calidad atención</span>
+<span>94%</span>
+</div>
+
+<div class="bar">
+<div class="bar-fill" style="width:94%"></div>
+</div>
+
+</div>
+
 </div>
 
 </div>
@@ -716,18 +617,6 @@ Cliente indica falta de claridad en la información.
 <div id="comentariosNegativos"></div>
 <div id="comentariosRegulares"></div>
 <div id="rankingAsesores"></div>
-
-<div class="rating-breakdown">
-
-<div class="breakdown-row">
-<span>⭐⭐⭐⭐⭐</span>
-<div class="mini-bar">
-<div class="mini-fill" style="width:78%"></div>
-</div>
-<span>78%</span>
-</div>
-
-</div>
 
 
 <script>
@@ -795,35 +684,8 @@ async function cargarDashboard(){
     ).toFixed(0)
 
 
-// PROMEDIO VISUAL
-
-document
-.getElementById('promedioNumero')
-.innerText = promedio
-
-document
-.getElementById('ratingTotal')
-.innerText = `${total} evaluaciones`
-
-const estrellas = Math.round(promedio)
-
-let estrellasHTML = ''
-
-for(let i=1; i<=5; i++){
-
-    if(i <= estrellas){
-
-        estrellasHTML += '⭐'
-
-    }else{
-
-        estrellasHTML += '☆'
-    }
-}
-
-document
-.getElementById('ratingStars')
-.innerHTML = estrellasHTML
+    document.getElementById('promedio')
+    .innerText = promedio + ' ⭐' + '(' + total + ')'
 
     document.getElementById('total')
     .innerText = total
@@ -903,112 +765,6 @@ document
         </div>
         `
     })
-
-    // =========================
-// TENDENCIA MENSUAL REAL
-// =========================
-
-const meses = [
-    'Enero',
-    'Febrero',
-    'Marzo',
-    'Abril',
-    'Mayo',
-    'Junio',
-    'Julio',
-    'Agosto',
-    'Septiembre',
-    'Octubre',
-    'Noviembre',
-    'Diciembre'
-]
-
-const tendencias = {}
-
-data.forEach(item=>{
-
-    if(!item.fecha) return
-
-    const fecha = new Date(item.fecha)
-
-    const mes = fecha.getMonth()
-
-    if(!tendencias[mes]){
-
-        tendencias[mes] = []
-    }
-
-    tendencias[mes]
-    .push(Number(item.calificacion))
-})
-
-let tendenciaHTML = ''
-
-Object.keys(tendencias).forEach(mes=>{
-
-    const calificaciones =
-    tendencias[mes]
-
-    const promedioMes =
-    (
-        calificaciones.reduce(
-            (a,b)=>a+b,
-            0
-        ) / calificaciones.length
-    ).toFixed(1)
-
-    const porcentaje =
-    (promedioMes / 5) * 100
-
-    let estrellas = ''
-
-    for(let i=1; i<=5; i++){
-
-        if(i <= Math.round(promedioMes)){
-
-            estrellas += '⭐'
-
-        }else{
-
-            estrellas += '☆'
-        }
-    }
-
-    tendenciaHTML += `
-
-    <div class="trend">
-
-        <div class="trend-header">
-
-            <span>
-            ${meses[mes]}
-            </span>
-
-            <span class="trend-rating">
-
-            ${promedioMes}
-            ${estrellas}
-
-            </span>
-
-        </div>
-
-        <div class="bar">
-
-            <div
-            class="bar-fill"
-            style="width:${porcentaje}%">
-            </div>
-
-        </div>
-
-    </div>
-    `
-})
-
-document
-.getElementById('tendenciaMensual')
-.innerHTML = tendenciaHTML
 
     document
     .getElementById('comentariosNegativos')
@@ -1159,155 +915,6 @@ document
 
     </div>
     `
-    // =========================
-// ESTADO GENERAL SERVICIO
-// =========================
-
-// SATISFACCION GENERAL
-
-const satisfaccionGeneral =
-(
-    data.reduce(
-        (acc,item)=>
-        acc + Number(item.calificacion),
-        0
-    ) / total / 5
-) * 100
-
-// RECOMENDACION
-
-const recomendacionGeneral =
-(
-    data.filter(
-        item => item.recomendaria === true
-    ).length / total
-) * 100
-
-// TIEMPO ATENCION
-
-const tiempoAdecuado =
-(
-    data.filter(
-        item =>
-        item.tiempo_atencion === true
-    ).length / total
-) * 100
-
-// CALIDAD ATENCION
-
-const calidadAtencion =
-(
-    data.filter(
-        item =>
-        item.amabilidad === 'si' ||
-        item.amabilidad === 'parcialmente'
-    ).length / total
-) * 100
-
-document
-.getElementById('estadoServicio')
-.innerHTML = `
-
-<div class="status">
-
-    <div class="status-header">
-
-        <span>
-        Satisfacción general
-        </span>
-
-        <span class="status-value">
-        ${satisfaccionGeneral.toFixed(0)}%
-        </span>
-
-    </div>
-
-    <div class="bar">
-
-        <div
-        class="bar-fill"
-        style="width:${satisfaccionGeneral}%">
-        </div>
-
-    </div>
-
-</div>
-
-<div class="status">
-
-    <div class="status-header">
-
-        <span>
-        Recomendación
-        </span>
-
-        <span class="status-value">
-        ${recomendacionGeneral.toFixed(0)}%
-        </span>
-
-    </div>
-
-    <div class="bar">
-
-        <div
-        class="bar-fill"
-        style="width:${recomendacionGeneral}%">
-        </div>
-
-    </div>
-
-</div>
-
-<div class="status">
-
-    <div class="status-header">
-
-        <span>
-        Tiempo atención
-        </span>
-
-        <span class="status-value">
-        ${tiempoAdecuado.toFixed(0)}%
-        </span>
-
-    </div>
-
-    <div class="bar">
-
-        <div
-        class="bar-fill"
-        style="width:${tiempoAdecuado}%">
-        </div>
-
-    </div>
-
-</div>
-
-<div class="status">
-
-    <div class="status-header">
-
-        <span>
-        Calidad atención
-        </span>
-
-        <span class="status-value">
-        ${calidadAtencion.toFixed(0)}%
-        </span>
-
-    </div>
-
-    <div class="bar">
-
-        <div
-        class="bar-fill"
-        style="width:${calidadAtencion}%">
-        </div>
-
-    </div>
-
-</div>
-`
 }
 
 cargarDashboard()
