@@ -205,6 +205,36 @@ body{
     margin-bottom:10px;
 }
 
+/* POSITIVOS */
+
+.positive{
+
+    background:#f0fff4;
+
+    border:1px solid #bbf7d0;
+}
+
+.positive strong{
+
+    color:#15803d;
+}
+
+/* NEGATIVOS */
+
+.negative{
+
+    background:#fff1f2;
+
+    border:1px solid #fecdd3;
+}
+
+.negative strong{
+
+    color:#dc2626;
+}
+
+
+
 /* RESPONSIVE */
 
 @media(max-width:900px){
@@ -232,7 +262,7 @@ body{
 
 <nav class="menu">
 
-<a href="index.html">
+<a href="/./index.html">
 Encuesta
 </a>
 
@@ -497,6 +527,11 @@ Estado general del servicio
 
 </div>
 
+<div id="comentariosPositivos"></div>
+<div id="comentariosNegativos"></div>
+<div id="rankingAsesores"></div>
+
+
 <script>
 
 const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
@@ -527,6 +562,10 @@ async function cargarDashboard(){
 
         return
     }
+
+    // =========================
+    // KPI PRINCIPALES
+    // =========================
 
     const promedio =
     (
@@ -561,6 +600,185 @@ async function cargarDashboard(){
 
     document.getElementById('negativos')
     .innerText = negativos + '%'
+
+    // =========================
+    // COMENTARIOS POSITIVOS
+    // =========================
+
+    const positivos = data
+    .filter(
+        item =>
+        Number(item.calificacion) >= 4 &&
+        item.comentario
+    )
+    .slice(-5)
+
+    let positivosHTML = ''
+
+    positivos.forEach(item=>{
+
+        positivosHTML += `
+        <div class="comment positive">
+
+            <strong>
+            ⭐⭐⭐⭐⭐ Excelente experiencia
+            </strong>
+
+            <p>
+            ${item.comentario}
+            </p>
+
+        </div>
+        `
+    })
+
+    document
+    .getElementById('comentariosPositivos')
+    .innerHTML = positivosHTML
+
+    // =========================
+    // COMENTARIOS NEGATIVOS
+    // =========================
+
+    const comentariosNegativos = data
+    .filter(
+        item =>
+        Number(item.calificacion) <= 2 &&
+        item.comentario
+    )
+    .slice(-5)
+
+    let negativosHTML = ''
+
+    comentariosNegativos.forEach(item=>{
+
+        negativosHTML += `
+        <div class="comment negative">
+
+            <strong>
+            ⭐ Mala experiencia
+            </strong>
+
+            <p>
+            ${item.comentario}
+            </p>
+
+        </div>
+        `
+    })
+
+    document
+    .getElementById('comentariosNegativos')
+    .innerHTML = negativosHTML
+
+    // =========================
+    // NIVELES SATISFACCION
+    // =========================
+
+    const muyMala =
+    data.filter(
+        item => Number(item.calificacion) == 1
+    ).length
+
+    const mala =
+    data.filter(
+        item => Number(item.calificacion)== 2
+    ).length
+
+    const regular =
+    data.filter(
+        item => Number(item.calificacion) == 3
+    ).length
+
+    const buena =
+    data.filter(
+        item => Number(item.calificacion) == 4
+    ).length
+
+    const excelente =
+    data.filter(
+        item => Number(item.calificacion) == 5
+    ).length
+
+    document
+    .getElementById('nivelesSatisfaccion')
+    .innerHTML = `
+
+    <div class="status">
+
+        <div class="status-header">
+            <span>⭐ Muy mala</span>
+            <span>${muyMala}</span>
+        </div>
+
+        <div class="bar">
+            <div class="bar-fill"
+            style="width:${muyMala*10}%">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="status">
+
+        <div class="status-header">
+            <span>⭐⭐ Mala</span>
+            <span>${mala}</span>
+        </div>
+
+        <div class="bar">
+            <div class="bar-fill"
+            style="width:${mala*10}%">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="status">
+
+        <div class="status-header">
+            <span>⭐⭐⭐ Regular</span>
+            <span>${regular}</span>
+        </div>
+
+        <div class="bar">
+            <div class="bar-fill"
+            style="width:${regular*10}%">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="status">
+
+        <div class="status-header">
+            <span>⭐⭐⭐⭐ Buena</span>
+            <span>${buena}</span>
+        </div>
+
+        <div class="bar">
+            <div class="bar-fill"
+            style="width:${buena*10}%">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="status">
+
+        <div class="status-header">
+            <span>⭐⭐⭐⭐⭐ Excelente</span>
+            <span>${excelente}</span>
+        </div>
+
+        <div class="bar">
+            <div class="bar-fill"
+            style="width:${excelente*10}%">
+            </div>
+        </div>
+
+    </div>
+    `
 }
 
 cargarDashboard()
