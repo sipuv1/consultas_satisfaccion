@@ -121,6 +121,38 @@ textarea{
     padding:10px;
 }
 
+/* SELECT CONTRATO */
+
+select{
+
+    width:100%;
+
+    padding:16px;
+
+    border-radius:14px;
+
+    border:2px solid #dbeafe;
+
+    font-size:16px;
+
+    margin-top:15px;
+
+    background:white;
+
+    color:#333;
+
+    outline:none;
+
+    transition:.3s;
+}
+
+select:focus{
+
+    border-color:#0d47a1;
+
+    box-shadow:0 0 0 4px rgba(13,71,161,.15);
+}
+
 </style>
 
 </head>
@@ -146,6 +178,41 @@ textarea{
 <form id="encuestaForm">
 
 <div class="question">
+
+ <h3>
+    Selecciona el contrato
+    </h3>
+
+    <select
+    id="contrato"
+    name="contrato"
+    required>
+
+        <option value="">
+        Seleccione una opción
+        </option>
+
+        <option value="FOMAG">
+        FOMAG
+        </option>
+
+        <option value="PONAL">
+        PONAL
+        </option>
+
+        <option value="FUERZAS MILITARES">
+        FUERZAS MILITARES
+        </option>
+
+        <option value="ECOPETROL">
+        ECOPETROL
+        </option>
+
+        <option value="SANITAS">
+        SANITAS
+        </option>
+
+    </select>   
 
 <h3>¿Cómo calificas la atención recibida?</h3>
 
@@ -368,11 +435,16 @@ const { data, error } = await client
 .from('respuestas')
 .insert([
 {
+
     calificacion: calificacion,
     tiempo_atencion: tiempo === 'true',
     amabilidad: amabilidad,
     recomendaria: recomendaria === 'true',
-    comentario: comentario
+    comentario: comentario,
+    contrato:
+        document
+        .getElementById('contrato')
+        .value,  
 }
 ])
 
