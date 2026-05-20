@@ -36,10 +36,43 @@ h1{
 }
 
 .option{
+
     background:#eef3ff;
-    padding:12px;
-    border-radius:10px;
-    margin-top:10px;
+
+    padding:18px;
+
+    border-radius:14px;
+
+    margin-top:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+    border:2px solid transparent;
+}
+
+.option:hover{
+
+    background:#dfe9ff;
+}
+
+.option input{
+
+    transform:scale(1.2);
+}
+
+.option:has(input:checked){
+
+    border:2px solid #0d47a1;
+
+    background:#dbe7ff;
 }
 
 button{
@@ -111,30 +144,66 @@ textarea{
 
 <h3>¿Cómo calificas la atención recibida?</h3>
 
-<div class="option">
-<input type="radio" name="calificacion" value="1" required>
+<label class="option">
+<input
+    type="radio"
+    name="calificacion"
+    value="1"
+    required
+>
+<span>
 ⭐ Muy mala
-</div>
+</span>
+</label>
 
-<div class="option">
-<input type="radio" name="calificacion" value="2">
+<label class="option">
+<input
+    type="radio"
+    name="calificacion"
+    value="1"
+    required
+>
+<span>
 ⭐⭐ Mala
-</div>
+</span>
+</label>
 
-<div class="option">
-<input type="radio" name="calificacion" value="3">
+<label class="option">
+<input
+    type="radio"
+    name="calificacion"
+    value="1"
+    required
+>
+<span>
 ⭐⭐⭐ Regular
-</div>
+</span>
+</label>
 
-<div class="option">
-<input type="radio" name="calificacion" value="4">
+<label class="option">
+<input
+    type="radio"
+    name="calificacion"
+    value="1"
+    required
+>
+<span>
 ⭐⭐⭐⭐ Buena
-</div>
+</span>
+</label>
 
-<div class="option">
-<input type="radio" name="calificacion" value="5">
+<label class="option">
+<input
+    type="radio"
+    name="calificacion"
+    value="1"
+    required
+>
+<span>
 ⭐⭐⭐⭐⭐ Excelente
-</div>
+</span>
+</label>
+
 
 </div>
 
@@ -142,15 +211,30 @@ textarea{
 
 <h3>¿El tiempo de atención fue adecuado?</h3>
 
-<div class="option">
-<input type="radio" name="tiempo" value="Si" required>
+<label class="option">
+<input
+    type="radio"
+    name="tiempo"
+    value="Si"
+    required
+>
+<span>
 Sí
-</div>
+</span>
+</label>
 
-<div class="option">
-<input type="radio" name="tiempo" value="No">
+<label class="option">
+<input
+    type="radio"
+    name="tiempo"
+    value="No"
+    required
+>
+<span>
 No
-</div>
+</span>
+</label>
+
 
 </div>
 
@@ -158,20 +242,42 @@ No
 
 <h3>¿El personal fue amable y claro?</h3>
 
-<div class="option">
-<input type="radio" name="amabilidad" value="Si" required>
+<label class="option">
+<input
+    type="radio"
+    name="amabilidad"
+    value="Si"
+    required
+>
+<span>
 Sí
-</div>
+</span>
+</label>
 
-<div class="option">
-<input type="radio" name="amabilidad" value="Parcialmente">
+<label class="option">
+<input
+    type="radio"
+    name="amabilidad"
+    value="Parcialmente"
+    required
+>
+<span>
 Parcialmente
-</div>
+</span>
+</label>
 
-<div class="option">
-<input type="radio" name="amabilidad" value="No">
+<label class="option">
+<input
+    type="radio"
+    name="amabilidad"
+    value="No"
+    required
+>
+<span>
 No
-</div>
+</span>
+</label>
+
 
 </div>
 
@@ -179,15 +285,30 @@ No
 
 <h3>¿Recomendarías nuestro servicio?</h3>
 
-<div class="option">
-<input type="radio" name="recomendaria" value="true" required>
+<label class="option">
+<input
+    type="radio"
+    name="recomendaria"
+    value="true"
+    required
+>
+<span>
 Sí
-</div>
+</span>
+</label>
 
-<div class="option">
-<input type="radio" name="recomendaria" value="false">
+<label class="option">
+<input
+    type="radio"
+    name="recomendaria"
+    value="false"
+    required
+>
+<span>
 No
-</div>
+</span>
+</label>
+
 
 </div>
 
