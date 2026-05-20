@@ -169,17 +169,67 @@ body{
     margin-bottom:25px;
 }
 
-/* TRENDS */
+/* COMENTARIOS GRID */
 
-/*.trend{
-    margin-bottom:25px;
+.comments-grid{
+
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:30px;
+
+    margin-bottom:30px;
 }
 
-.trend-header{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:10px;
-}*/
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .comments-grid{
+
+        grid-template-columns:1fr;
+    }
+}
+
+/* COMENTARIOS */
+
+.comment{
+
+    padding:18px;
+
+    border-radius:18px;
+
+    margin-bottom:15px;
+}
+
+/* POSITIVOS */
+
+.positive{
+
+    background:#f0fff4;
+
+    border:1px solid #bbf7d0;
+}
+
+.positive strong{
+
+    color:#15803d;
+}
+
+/* NEGATIVOS */
+
+.negative{
+
+    background:#fff1f2;
+
+    border:1px solid #fecdd3;
+}
+
+.negative strong{
+
+    color:#dc2626;
+}
 
 /* TENDENCIA MENSUAL */
 
@@ -274,17 +324,16 @@ body{
     color:#cc0000;
 }
 
-/* STATUS */
+.comment-date{
 
-/*.status{
-    margin-bottom:25px;
+    display:block;
+
+    margin-top:10px;
+
+    font-size:12px;
+
+    color:#777;
 }
-
-.status-header{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:10px;
-}*/
 
 /* ESTADO GENERAL */
 
@@ -447,6 +496,13 @@ RATING MODERNO
     font-size:15px;
 
     line-height:1.4;
+}
+
+/* SEPARACION PANEL ESTADO */
+
+.panel-status{
+
+    margin-top:40px;
 }
 
 /* RESPONSIVE */
@@ -652,50 +708,7 @@ Sistema de satisfacción y experiencia del usuario
 
 </div>
 
-<!-- RANKING -->
-
-
-<!-- LOWER CONTENT -->
-
-<div class="content">
-
-<!-- NEGATIVE COMMENTS -->
-
-<div class="panel">
-
-<h2>
-Comentarios negativos
-</h2>
-
-<div class="comment">
-
-<strong>
-Tiempo de espera elevado
-</strong>
-
-<p>
-Usuario reporta demora superior a 30 minutos.
-</p>
-
-</div>
-
-<div class="comment">
-
-<strong>
-Mala atención
-</strong>
-
-<p>
-Cliente indica falta de claridad en la información.
-</p>
-
-</div>
-
-</div>
-
-<!-- STATUS -->
-
-<div class="panel">
+<div class="panel ">
 
     <h2>
     Estado general del servicio
@@ -706,6 +719,49 @@ Cliente indica falta de claridad en la información.
     </div>
 
 </div>
+
+<div class="panel panel-status">
+
+    <h2>
+    Comentarios recientes
+    </h2>
+<div class="comments-grid">
+
+    <!-- POSITIVOS -->
+
+    <div class="panel">
+
+        <h2>
+        Comentarios positivos
+        </h2>
+
+        <div id="comentariosPositivos">
+
+        </div>
+
+    </div>
+
+    <!-- NEGATIVOS -->
+
+    <div class="panel">
+
+        <h2>
+        Comentarios negativos
+        </h2>
+
+        <div id="comentariosNegativos">
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+
+<!-- STATUS -->
+
+
 </div>
 
 </div>
@@ -861,9 +917,13 @@ document
             ⭐⭐⭐⭐⭐ Excelente experiencia
             </strong>
 
-            <p>
+         <p>
             ${item.comentario}
-            </p>
+        </p>
+
+        <small class="comment-date">
+             ${new Date(item.fecha).toLocaleDateString()}
+        </small>
 
         </div>
         `
@@ -896,9 +956,13 @@ document
             ⭐ Mala experiencia
             </strong>
 
-            <p>
-            ${item.comentario}
+           <p>
+                ${item.comentario}
             </p>
+
+            <small class="comment-date">
+                ${new Date(item.fecha).toLocaleDateString()}
+            </small>
 
         </div>
         `
@@ -1199,8 +1263,8 @@ const calidadAtencion =
 (
     data.filter(
         item =>
-        item.amabilidad === 'si' ||
-        item.amabilidad === 'parcialmente'
+        item.amabilidad === 'Si' ||
+        item.amabilidad === 'Parcialmente'
     ).length / total
 ) * 100
 
