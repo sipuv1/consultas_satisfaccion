@@ -151,41 +151,11 @@
 
             box-shadow: 0 0 0 4px rgba(13, 71, 161, .15);
         }
-
-        .contrato-box{
-
-    background:#f5f8ff;
-
-    border:2px solid #dbeafe;
-
-    padding:15px;
-
-    border-radius:15px;
-
-    margin-bottom:25px;
-
-    font-size:18px;
-
-    color:#0d47a1;
-
-    text-align:center;
-
-    font-weight:bold;
-}
     </style>
 
 </head>
 
 <body>
-
-    <div class="contrato-box">
-
-    Contrato:
-    <strong id="contratoDetectado">
-    General
-    </strong>
-
-</div>
 
     <div class="card">
 
@@ -203,13 +173,13 @@
 
             <div class="question">
 
-                <!--<div class="question">
+                <div class="question">
 
                     <h3>
                         Selecciona tu Convenio o Contrato
                     </h3>
 
-                    <select id="contrato" name="contrato" >
+                    <select id="contrato" name="contrato" required>
 
                         <option value="">
                             Cargando contratos...
@@ -217,8 +187,7 @@
 
                     </select>
 
-                </div>-->
-                <BR></BR>
+                </div>
 
                 <h3>¿Cómo calificas la atención recibida?</h3>
 
@@ -393,32 +362,8 @@
         }
 
         cargarContratos()
-        // =====================================
-// OBTENER CONTRATO DESDE URL
-// =====================================
-
-const params =
-new URLSearchParams(
-    window.location.search
-)
-
-const contratoURL =
-params.get('contrato')
-
-// MOSTRAR CONTRATO VISUAL
-
-if(contratoURL){
-
-    document
-    .getElementById('contratoDetectado')
-    .innerText =
-    contratoURL
-}
         document
-        
             .getElementById('encuestaForm')
-
-            
             .addEventListener('submit', async function (e) {
 
                 e.preventDefault()
@@ -442,8 +387,7 @@ if(contratoURL){
                     .from('respuestas')
                     .insert([
                         {
-                            /*contrato: document.getElementById('contrato').value,*/
-                            contrato: contratoURL || 'General',
+                            contrato: document.getElementById('contrato').value,
                             calificacion: calificacion,
                             tiempo_atencion: tiempo === 'true',
                             amabilidad: amabilidad,
