@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <meta charset="UTF-8">
+
+    <title>
+        Administrar Preguntas
+    </title>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <style>
+        body {
+
+            background: #f1f5ff;
+
+            font-family: Arial;
+
+            padding: 30px;
+        }
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: auto;
+        }
+
+        .card {
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 25px;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 10px 30px rgba(0, 0, 0, .08);
+        }
+
+        h1 {
+
+            color: #0d47a1;
+
+            margin-bottom: 25px;
+        }
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(250px, 1fr));
+
+            gap: 20px;
+        }
+
+        input,
+        select {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border-radius: 14px;
+
+            border: 2px solid #dbeafe;
+        }
+
+        button {
+
+            border: none;
+
+            padding: 14px;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .btn-primary {
+
+            background: #0d47a1;
+
+            color: white;
+        }
+
+        .btn-warning {
+
+            background: #f59e0b;
+
+            color: white;
+        }
+
+        .btn-danger {
+
+            background: #dc2626;
+
+            color: white;
+        }
+
+        .btn-success {
+
+            background: #15803d;
+
+            color: white;
+        }
+
+        .table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+        .table th,
+        .table td {
+
+            padding: 14px;
+
+            border-bottom:
+                1px solid #eee;
+
+            text-align: left;
+        }
+
+        .actions {
+
+            display: flex;
+
+            gap: 5px;
+        }
+
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0, 0, 0, .5);
+
+            z-index: 9999;
+        }
+
+        .modal-content {
+
+            width: 500px;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 25px;
+
+            margin: 80px auto;
+        }
+
+        .preview-question {
+
+            background: #f5f8ff;
+
+            border: 2px solid #dbeafe;
+
+            border-radius: 15px;
+
+            padding: 20px;
+
+            margin-bottom: 15px;
+        }
+
+        .preview-question h3 {
+
+            color: #0d47a1;
+
+            margin-bottom: 15px;
+        }
+
+        .actions {
+
+            display: flex;
+
+            gap: 5px;
+
+            flex-wrap: wrap;
+        }
+
+        .modal-content {
+
+            width: 500px;
+
+            background: white;
+
+            padding: 30px;
+
+            border-radius: 25px;
+
+            margin: 80px auto;
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 15px;
+        }
+
+        .modal-content button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .btn-primary {
+
+            background: #0d47a1;
+
+            color: white;
+        }
+
+        .btn-danger {
+
+            background: #dc2626;
+
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h1>
+                Administración de Preguntas
+            </h1>
+
+            <div class="form-grid">
+
+                <div>
+
+                    <label>
+                        Contrato
+                    </label>
+
+                    <select id="contrato">
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label>
+                        Pregunta
+                    </label>
+
+                    <input type="text" id="pregunta">
+
+                </div>
+
+                <div>
+
+                    <label>
+                        Tipo
+                    </label>
+
+                    <select id="tipo">
+
+                        <option value="si_no">
+                            Sí / No
+                        </option>
+
+                        <option value="texto">
+                            Texto
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div>
+
+                    <label>
+                        Orden
+                    </label>
+
+                    <input type="number" id="orden" value="1">
+
+                </div>
+
+            </div>
+
+            <br>
+
+            <button class="btn-primary" onclick="guardarPregunta()">
+
+                Guardar Pregunta
+
+            </button>
+
+        </div>
+
+        <div class="card">
+
+            <table class="table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Orden</th>
+
+                        <th>Pregunta</th>
+
+                        <th>Tipo</th>
+
+                        <th>Estado</th>
+
+                        <th>Acciones</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tablaPreguntas">
+
+                    <div id="modalEditar" class="modal">
+
+                        <div class="modal-content">
+                            <h2>Editar pregunta</h2>
+
+                            <input type="hidden" id="editId">
+
+                            <input type="text" id="editPregunta">
+
+                            <select id="editTipo">
+
+                                <option value="si_no">
+                                    Sí / No
+                                </option>
+
+                                <option value="texto">
+                                    Texto
+                                </option>
+
+                            </select>
+
+                            <button type="button" class="btn-primary" onclick="guardarEdicion()">
+
+                                Guardar
+
+                            </button>
+                            <button type="button" class="btn-danger" onclick="cerrarModal()">
+
+                                Cancelar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </tbody>
+
+            </table>
+
+            <div class="card">
+
+                <h2>
+                    Vista previa
+                </h2>
+
+                <div id="preview">
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        const SUPABASE_URL =
+            'https://ouclpvprplwodgfrywqn.supabase.co'
+
+        const SUPABASE_KEY =
+            'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
+
+        const client =
+            supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_KEY
+            )
+
+        async function cargarContratos() {
+
+            const { data } =
+                await client
+                    .from('contratos')
+                    .select('*')
+                    .eq('activo', true)
+
+            const select =
+                document.getElementById(
+                    'contrato'
+                )
+
+            select.innerHTML = ''
+
+            data.forEach(c => {
+
+                select.innerHTML += `
+<option value="${c.nombre}">
+${c.nombre}
+</option>
+`
+            })
+
+            cargarPreguntas()
+        }
+
+        async function guardarPregunta() {
+
+            const contrato =
+                document
+                    .getElementById('contrato')
+                    .value
+
+            const pregunta =
+                document
+                    .getElementById('pregunta')
+                    .value
+
+            const tipo =
+                document
+                    .getElementById('tipo')
+                    .value
+
+            const orden =
+                document
+                    .getElementById('orden')
+                    .value
+
+            await client
+                .from('preguntas_contrato')
+                .insert([{
+
+                    contrato,
+                    pregunta,
+                    tipo,
+                    orden
+
+                }])
+
+            cargarPreguntas()
+        }
+
+        async function cargarPreguntas() {
+
+            const contrato =
+                document
+                    .getElementById('contrato')
+                    .value
+
+            const { data, error } =
+                await client
+                    .from('preguntas_contrato')
+                    .select('*')
+                    .eq('contrato', contrato)
+                    .order('orden')
+
+            if (error) {
+
+                console.log(error)
+                return
+            }
+
+            const tabla =
+                document.getElementById(
+                    'tablaPreguntas'
+                )
+
+            tabla.innerHTML = ''
+
+            data.forEach(p => {
+
+                tabla.innerHTML += `
+
+        <tr>
+
+            <td>
+                ${p.orden}
+            </td>
+
+            <td>
+                ${p.pregunta}
+            </td>
+
+            <td>
+                ${p.tipo}
+            </td>
+
+            <td>
+
+                ${p.activa
+                        ? '🟢 Activa'
+                        : '🔴 Inactiva'}
+
+            </td>
+
+            <td>
+
+                <div class="actions">
+
+                    <button
+                    class="btn-success"
+                    onclick="subir(${p.id})">
+
+                    ⬆
+
+                    </button>
+
+                    <button
+                    class="btn-success"
+                    onclick="bajar(${p.id})">
+
+                    ⬇
+
+                    </button>
+
+                    <button
+                    class="btn-warning"
+                    onclick="editar(${p.id})">
+
+                    ✏
+
+                    </button>
+
+                    <button
+                    class="btn-primary"
+                    onclick="togglePregunta(${p.id})">
+
+                    ${p.activa
+                        ? 'OFF'
+                        : 'ON'}
+
+                    </button>
+
+                    <button
+                    class="btn-danger"
+                    onclick="eliminar(${p.id})">
+
+                    🗑
+
+                    </button>
+
+                </div>
+
+            </td>
+
+        </tr>
+        `
+            })
+
+            renderPreview(data)
+        }
+        async function editar(id) {
+
+            const { data } =
+                await client
+                    .from('preguntas_contrato')
+                    .select('*')
+                    .eq('id', id)
+                    .single()
+
+            document
+                .getElementById('editId')
+                .value = data.id
+
+            document
+                .getElementById('editPregunta')
+                .value = data.pregunta
+
+            document
+                .getElementById('editTipo')
+                .value = data.tipo
+
+            document
+                .getElementById('modalEditar')
+                .style.display = 'block'
+        }
+
+        async function guardarEdicion() {
+
+            const id =
+                document
+                    .getElementById('editId')
+                    .value
+
+            await client
+                .from('preguntas_contrato')
+                .update({
+
+                    pregunta:
+                        document.getElementById(
+                            'editPregunta'
+                        ).value,
+
+                    tipo:
+                        document.getElementById(
+                            'editTipo'
+                        ).value
+
+                })
+                .eq('id', id)
+
+            cerrarModal()
+
+            cargarPreguntas()
+        }
+
+        function cerrarModal() {
+
+            document
+                .getElementById(
+                    'modalEditar'
+                )
+                .style.display = 'none'
+        }
+
+        async function subir(id) {
+
+
+            const contrato =
+                document
+                    .getElementById('contrato')
+                    .value
+
+            const { data } =
+                await client
+                    .from('preguntas_contrato')
+                    .select('*')
+                    .eq('contrato', contrato)
+                    .order('orden')
+
+            const actual =
+                data.find(x => x.id === id)
+
+            const anterior =
+                data.find(
+                    x =>
+                        x.orden ===
+                        actual.orden - 1
+                )
+
+            if (!anterior) return
+
+            await client
+                .from('preguntas_contrato')
+                .update({
+                    orden: actual.orden
+                })
+                .eq('id', anterior.id)
+
+            await client
+                .from('preguntas_contrato')
+                .update({
+                    orden: anterior.orden
+                })
+                .eq('id', actual.id)
+
+            cargarPreguntas()
+        }
+
+        async function bajar(id) {
+
+
+
+            const contrato =
+                document
+                    .getElementById('contrato')
+                    .value
+
+            const { data } =
+                await client
+                    .from('preguntas_contrato')
+                    .select('*')
+                    .eq('contrato', contrato)
+                    .order('orden')
+
+            const actual =
+                data.find(x => x.id === id)
+
+            const siguiente =
+                data.find(
+                    x =>
+                        x.orden ===
+                        actual.orden + 1
+                )
+
+            if (!siguiente) return
+
+            await client
+                .from('preguntas_contrato')
+                .update({
+                    orden: actual.orden
+                })
+                .eq('id', siguiente.id)
+
+            await client
+                .from('preguntas_contrato')
+                .update({
+                    orden: siguiente.orden
+                })
+                .eq('id', actual.id)
+
+            cargarPreguntas()
+        }
+
+        async function togglePregunta(id) {
+
+            const { data } =
+                await client
+                    .from('preguntas_contrato')
+                    .select('*')
+                    .eq('id', id)
+                    .single()
+
+            await client
+                .from('preguntas_contrato')
+                .update({
+
+                    activa:
+                        !data.activa
+
+                })
+                .eq('id', id)
+
+            cargarPreguntas()
+        }
+
+        function renderPreview(
+            preguntas
+        ) {
+
+            const preview =
+                document.getElementById(
+                    'preview'
+                )
+
+            preview.innerHTML = ''
+
+            preguntas
+                .filter(
+                    p => p.activa
+                )
+                .forEach(p => {
+
+                    let html = `
+
+        <div class="preview-question">
+
+            <h3>
+
+                ${p.pregunta}
+
+            </h3>
+        `
+
+                    if (
+                        p.tipo === 'si_no'
+                    ) {
+
+                        html += `
+
+            <label>
+
+                <input
+                type="radio"
+                disabled>
+
+                Sí
+
+            </label>
+
+            <br><br>
+
+            <label>
+
+                <input
+                type="radio"
+                disabled>
+
+                No
+
+            </label>
+            `
+                    }
+
+                    if (
+                        p.tipo === 'texto'
+                    ) {
+
+                        html += `
+
+            <textarea
+            disabled
+            rows="3"
+            style="
+            width:100%;
+            border-radius:12px;
+            ">
+            </textarea>
+            `
+                    }
+
+                    html += `
+        </div>
+        `
+
+                    preview.innerHTML += html
+                })
+        }
+
+        async function eliminar(id) {
+
+            if (
+                !confirm(
+                    '¿Eliminar pregunta?'
+                )
+            ) return
+
+            await client
+                .from('preguntas_contrato')
+                .delete()
+                .eq('id', id)
+
+            cargarPreguntas()
+
+        }
+
+        document
+            .getElementById('contrato')
+            .addEventListener(
+                'change',
+                cargarPreguntas
+            )
+
+        cargarContratos()
+        renderPreview()
+    </script>
+
+</body>
+
+</html>

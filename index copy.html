@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ETICOS | Encuesta</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f7ff;
+            padding: 30px;
+        }
+
+        .card {
+            background: white;
+            max-width: 700px;
+            margin: auto;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .1);
+        }
+
+        h1 {
+            color: #0d47a1;
+            text-align: center;
+        }
+
+        .question {
+            margin-top: 30px;
+        }
+
+        .option {
+
+            background: #eef3ff;
+
+            padding: 18px;
+
+            border-radius: 14px;
+
+            margin-top: 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            cursor: pointer;
+
+            transition: .2s;
+
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+
+            background: #dfe9ff;
+        }
+
+        .option input {
+
+            transform: scale(1.2);
+        }
+
+        .option:has(input:checked) {
+
+            border: 2px solid #0d47a1;
+
+            background: #dbe7ff;
+        }
+
+        .option span {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: #0d47a1;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            margin-top: 30px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .logo {
+            width: 260px;
+            height: 100px;
+            /*border:2px dashed #0d47a1;*/
+            border-radius: 20px;
+            background: white;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            margin: 0 auto;
+
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
+        }
+
+        /* SELECT CONTRATO */
+
+        select {
+
+            width: 100%;
+
+            padding: 16px;
+
+            border-radius: 14px;
+
+            border: 2px solid #dbeafe;
+
+            font-size: 16px;
+
+            margin-top: 15px;
+
+            background: white;
+
+            color: #333;
+
+            outline: none;
+
+            transition: .3s;
+        }
+
+        select:focus {
+
+            border-color: #0d47a1;
+
+            box-shadow: 0 0 0 4px rgba(13, 71, 161, .15);
+        }
+
+
+        .contrato-box{
+
+            background:#f5f8ff;
+
+            border:2px solid #dbeafe;
+
+            padding:15px;
+
+            border-radius:15px;
+
+            margin-bottom:25px;
+
+            font-size:18px;
+
+            color:#0d47a1;
+
+            text-align:center;
+
+            font-weight:bold;
+        }
+
+        .oculto{
+            display:none;
+        }
+
+
+    .hidden-field {
+
+    display: none;
+
+    margin-top: 20px;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 18px;
+
+    border: 2px solid #dbeafe;
+}
+
+.hidden-field label {
+
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-weight: bold;
+
+    color: #0d47a1;
+}
+
+.hidden-field input {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border-radius: 14px;
+
+    border: 2px solid #dbeafe;
+
+    font-size: 15px;
+}
+
+.hidden-field small {
+
+    display: block;
+
+    margin-top: 8px;
+
+    color: #666;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="contrato-box"> Contrato: <strong id="contratoDetectado"> General </strong> <br><br> Punto de dispensación: <strong id="puntoDetectado"> General </strong> </div>
+
+
+    <div class="card">
+
+        <div class="logo">
+
+            <img id="logoEmpresa" src="/img/logo.png" alt="Logo ETICOS" />
+
+        </div>
+
+        <h1>¿Cómo fue tu experiencia?</h1>
+
+        <p>Tu opinión es importante para nosotros ¡queremos que tengas una bonita experiencia! </p>
+
+        <form id="encuestaForm">
+
+            <div class="question oculto" id="preguntaOpcional">
+
+                 <h3>¿pregunta opcional condicional?</h3>
+
+                <label class="option">
+                    <input type="radio" name="opcional" value="true" required>
+                    <span>
+                        Sí
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="opcional" value="false" required>
+                    <span>
+                        No
+                    </span>
+                </label>
+
+
+            </div>    
+
+            <div class="question">
+               
+              <h3>¿Cómo calificas la atención recibida?</h3>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="5" required>
+                    <span>
+                        ⭐⭐⭐⭐⭐ Excelente
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="4" required>
+                    <span>
+                        ⭐⭐⭐⭐ Buena
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="3" required>
+                    <span>
+                        ⭐⭐⭐ Regular
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="2" required>
+                    <span>
+                        ⭐⭐ Mala
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="calificacion" value="1" required>
+                    <span>
+                        ⭐ Muy mala
+                    </span>
+                </label>
+
+
+            </div>
+
+            <div class="question">
+
+                <h3>¿El tiempo de atención fue adecuado?</h3>
+
+                <label class="option">
+                    <input type="radio" name="tiempo" value="true" required>
+                    <span>
+                        Sí
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="tiempo" value="false" required>
+                    <span>
+                        No
+                    </span>
+                </label>
+
+
+            </div>
+
+            <div class="question">
+
+                <h3>¿El personal fue amable y claro?</h3>
+
+                <label class="option">
+                    <input type="radio" name="amabilidad" value="Si" required>
+                    <span>
+                        Sí
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="amabilidad" value="Parcialmente" required>
+                    <span>
+                        Parcialmente
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="amabilidad" value="No" required>
+                    <span>
+                        No
+                    </span>
+                </label>
+
+
+            </div>
+
+            <div class="question">
+
+                <h3>¿Recomendarías nuestro servicio?</h3>
+
+                <label class="option">
+                    <input type="radio" name="recomendaria" value="true" required>
+                    <span>
+                        Sí
+                    </span>
+                </label>
+
+                <label class="option">
+                    <input type="radio" name="recomendaria" value="false" required>
+                    <span>
+                        No
+                    </span>
+                </label>
+
+
+            </div>
+
+            <div class="question">
+
+                <h3>Déjanos un comentario</h3>
+
+                <textarea id="comentario" rows="5"></textarea>
+
+            </div>
+
+
+<div id="contenedorCelular" class="hidden-field">
+
+    <label>
+        Número de celular
+    </label>
+
+    <input
+        type="tel"
+        id="celular"
+        placeholder="Ingresa tu número de celular">
+
+    <small>
+        Para poder contactarte respecto a tu comentario.
+    </small>
+
+</div>
+
+           
+
+
+
+
+
+            <button type="submit">
+                Enviar
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+
+ // =========================================
+// SUPABASE
+// =========================================       
+
+
+        const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
+        const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
+
+        const client = supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        )
+
+// =========================================
+// PARAMETROS URL
+// =========================================
+
+const params =
+new URLSearchParams(
+    window.location.search
+)
+
+// EJEMPLO:
+// ?contrato=SURA&punto=LAURELES
+
+const contratoURL =
+params.get('contrato')
+
+const puntoURL =
+params.get('punto')
+
+//=======================
+// Si el contrato es xxx, mostrar pregunta opcional
+
+if(contratoURL && contratoURL.toLowerCase() === 'ponal'){
+
+    // =========================================
+// MOSTRAR DATOS
+// =========================================
+
+document
+.getElementById(
+    'contratoDetectado'
+)
+.innerText =
+contratoURL || 'General'
+
+document
+.getElementById(
+    'puntoDetectado'
+)
+.innerText =
+puntoURL || 'General'
+
+    document
+    .getElementById(
+        'preguntaOpcional'
+    )
+    .classList
+    .remove('oculto')
+document
+.querySelectorAll(
+    'input[name="opcional"]'
+)
+.forEach(
+    x => x.required = true
+);  
+
+}
+
+// =========================================
+// MOSTRAR DATOS
+// =========================================
+
+document
+.getElementById(
+    'contratoDetectado'
+)
+.innerText =
+contratoURL || 'General'
+
+document
+.getElementById(
+    'puntoDetectado'
+)
+.innerText =
+puntoURL || 'General'
+
+// =========================================
+// MOSTRAR CELULAR SI HAY COMENTARIO
+// =========================================
+
+const comentarioInput =
+    document.getElementById('comentario')
+
+const contenedorCelular =
+    document.getElementById('contenedorCelular')
+
+comentarioInput.addEventListener('input', () => {
+
+    if (comentarioInput.value.trim() !== '') {
+
+        contenedorCelular.style.display = 'block'
+
+    } else {
+
+        contenedorCelular.style.display = 'none'
+
+        document.getElementById('celular').value = ''
+    }
+})
+
+// =========================================
+// FORMULARIO
+// =========================================
+
+document
+.getElementById('encuestaForm')
+.addEventListener(
+    'submit',
+    async function(e){
+
+        e.preventDefault()
+
+        try{
+
+            // ============================
+            // RESPUESTAS
+            // ============================
+
+            const opcional =
+            document.querySelector(
+                'input[name="opcional"]:checked'
+            )?.value
+
+            const calificacion =
+            document.querySelector(
+                'input[name="calificacion"]:checked'
+            )?.value
+
+            const tiempo =
+            document.querySelector(
+                'input[name="tiempo"]:checked'
+            )?.value
+
+            const amabilidad =
+            document.querySelector(
+                'input[name="amabilidad"]:checked'
+            )?.value
+
+            const recomendaria =
+            document.querySelector(
+                'input[name="recomendaria"]:checked'
+            )?.value
+
+            const comentario =
+            document
+            .getElementById('comentario')
+            .value
+            .trim()
+
+            const celular =
+            document
+            .getElementById('celular')
+            .value
+            .trim()
+
+            // ============================
+            // VALIDACIONES
+            // ============================
+
+            if(
+                !calificacion ||
+                !tiempo ||
+                !amabilidad ||
+                !recomendaria
+            ){
+                alert(
+                    'Debes responder todas las preguntas'
+                )
+                return
+            }
+
+            // Si escribió comentario,
+            // celular es obligatorio
+
+            if(
+                comentario !== '' &&
+                celular === ''
+            ){
+
+                alert(
+                    'Si ingresas un comentario debes registrar un número de celular.'
+                )
+
+                document
+                .getElementById('celular')
+                .focus()
+
+                return
+            }
+
+            // ============================
+            // INSERTAR
+            // ============================
+
+            const { data, error } =
+            await client
+            .from('respuestas')
+            .insert([{
+
+                contrato:
+                contratoURL || 'General',
+
+                punto_dispensacion:
+                puntoURL || 'General',
+
+                calificacion:
+                Number(calificacion),
+
+                tiempo_atencion:
+                tiempo === 'true',
+
+                amabilidad:
+                amabilidad,
+
+                recomendaria:
+                recomendaria === 'true',
+
+                comentario:
+                comentario,
+
+                celular:
+                celular || null,
+
+                pregunta_opcional:
+                opcional === 'true',
+
+                fecha:
+                new Date().toISOString()
+
+            }])
+
+            // ============================
+            // ERROR
+            // ============================
+
+            if(error){
+
+                console.log(
+                    'ERROR SUPABASE:',
+                    error
+                )
+
+                alert(
+                    'Error guardando encuesta'
+                )
+
+                return
+            }
+
+            // ============================
+            // EXITO
+            // ============================
+
+            alert(
+                '¡Gracias por tu opinión! Recuerda que tu respuesta es anónima y nos ayuda a mejorar cada día.'
+            )
+
+            document
+            .getElementById(
+                'encuestaForm'
+            )
+            .reset()
+
+            document
+            .getElementById(
+                'contenedorCelular'
+            )
+            .style.display = 'none'
+
+        }
+        catch(err){
+
+            console.log(err)
+
+            alert(
+                'Ocurrió un error inesperado'
+            )
+        }
+    }
+)
+
+
+    </script>
+
+</body>
+
+</html>

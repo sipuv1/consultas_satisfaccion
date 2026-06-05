@@ -1,0 +1,83 @@
+<select id="contrato"></select>
+
+<input
+type="text"
+id="nombrePunto"
+placeholder="Nombre punto">
+
+<button onclick="guardarPunto()">
+Guardar
+</button>
+<script>
+async function cargarContratos(){
+
+    const { data } =
+    await client
+    .from('contratos')
+    .select('*')
+    .eq('activo', true)
+
+    const select =
+    document.getElementById(
+        'contrato'
+    )
+
+    select.innerHTML=''
+
+    data.forEach(c=>{
+
+        select.innerHTML += `
+
+        <option value="${c.id}">
+
+            ${c.nombre}
+
+        </option>
+        `
+    })
+}
+
+async function guardarPunto(){
+
+    const contratoId =
+    document
+    .getElementById(
+        'contrato'
+    )
+    .value
+
+    const nombre =
+    document
+    .getElementById(
+        'nombrePunto'
+    )
+    .value
+
+    const { error } =
+    await client
+    .from(
+        'puntos_dispensacion'
+    )
+    .insert([{
+
+        contrato_id:
+        contratoId,
+
+        nombre:
+        nombre
+
+    }])
+
+    if(error){
+
+        console.log(error)
+
+        return
+    }
+
+    alert(
+        'Punto guardado'
+    )
+}
+
+</script>

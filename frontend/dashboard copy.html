@@ -542,7 +542,7 @@ RATING MODERNO
         }
 
         .filter-button {
-            flex: 1;
+             flex: 1;
             min-width: 140px;
         }
 
@@ -641,147 +641,7 @@ RATING MODERNO
                 min-width: 100%;
             }
         }
-
-        .comentario-item {
-
-            padding: 20px;
-
-            border-radius: 18px;
-
-            margin-bottom: 15px;
-
-            transition: .3s;
-        }
-
-        .comentario-item:hover {
-
-            transform: translateY(-2px);
-        }
-
-        .comentario-header {
-
-            display: flex;
-
-            justify-content: space-between;
-
-            align-items: center;
-
-            margin-bottom: 10px;
-
-            flex-wrap: wrap;
-        }
-
-        .comentario-estrellas {
-
-            font-size: 18px;
-
-            font-weight: bold;
-        }
-
-        .comentario-titulo {
-
-            font-weight: bold;
-
-            font-size: 18px;
-        }
-
-        .comentario-fecha {
-
-            color: #666;
-
-            font-size: 12px;
-        }
-
-        .comentario-celular {
-
-            margin-top: 8px;
-
-            font-size: 13px;
-
-            color: #555;
-
-            font-weight: bold;
-        }
-
-    .table-container{
-
-    overflow-x:auto;
-    max-height: 300px;
-}
-
-.tabla-preguntas{
-
-    width:100%;
-
-     table-layout:fixed;
-
-    border-collapse:collapse;
-
-    margin-top:10px;
-
-    
-}
-
-
-.tabla-preguntas th:nth-child(1),
-.tabla-preguntas td:nth-child(1){
-
-    width:15%;
-}
-
-.tabla-preguntas th:nth-child(2),
-.tabla-preguntas td:nth-child(2){
-
-    width:35%;
-}
-
-.tabla-preguntas th:nth-child(3),
-.tabla-preguntas td:nth-child(3){
-
-    width:50%;
-}
-
-.tabla-preguntas td{
-
-    padding:12px;
-
-    border-bottom:1px solid #e5e7eb;
-
-    word-break:normal;
-
-    overflow-wrap:break-word;
-}
-.tabla-preguntas th{
-
-    background:#0d47a1;
-
-    color:white;
-
-    padding:12px;
-
-    text-align:left;
-}
-
-.tabla-preguntas td{
-
-    padding:12px;
-
-    border-bottom:1px solid #e5e7eb;
-}
-
-.tabla-preguntas tr:hover{
-
-    background:#f8fafc;
-} 
-
-.tabla-header {
-    position:sticky;
-    top: 0;
-    z-index: 1000;
-
-}
-
-</style>
+    </style>
 
 </head>
 
@@ -847,19 +707,19 @@ RATING MODERNO
             </div>
 
             <div class="filter-group">
-
+            
                 <label>
                     Punto de dispensación
                 </label>
-
+            
                 <select id="filtroPunto">
-
+            
                     <option value="todos">
                         Todos los puntos
                     </option>
-
+            
                 </select>
-
+            
             </div>
 
             <!-- FECHA INICIO -->
@@ -893,7 +753,6 @@ RATING MODERNO
                 <label>
                     Aplicar
                 </label>
-
 
                 <button onclick="cargarDashboard()" class="btn-filter">
 
@@ -1033,45 +892,6 @@ RATING MODERNO
         <!-- CONTENT -->
 
         <div class="content">
-<div class="panel">
-
-    <h2>
-        Preguntas por contrato
-    </h2>
-
-    <div class="table-container">
-
-        <table class="tabla-preguntas" >
-
-            <thead class="tabla-header">
-
-                <tr>
-
-                    <th>
-                        Contrato
-                    </th>
-
-                    <th >
-                        Pregunta
-                    </th>
-
-                    <th>
-                        Respuesta
-                    </th>
-
-                </tr>
-
-            </thead>
-
-            <tbody id="preguntasContrato">
-
-            </tbody>
-
-        </table>
-
-    </div>
-
-</div>
 
             <!-- TENDENCIA -->
 
@@ -1120,16 +940,66 @@ RATING MODERNO
             <h2>
                 Comentarios recientes
             </h2>
+            <div class="comments-grid">
 
-            <div id="listaComentarios">
+                <!-- POSITIVOS -->
+
+                <div class="panel">
+
+                    <h2>
+                        Comentarios positivos
+                    </h2>
+
+                    <div id="comentariosPositivos">
+
+                    </div>
+
+                </div>
+
+                <!-- NEGATIVOS -->
+
+                <div class="panel">
+
+                    <h2>
+                        Comentarios negativos
+                    </h2>
+
+                    <div id="comentariosNegativos">
+
+                    </div>
+
+                </div>
 
             </div>
-
         </div>
 
 
+        <!-- STATUS -->
 
-            <br>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    <div id="comentariosPositivos"></div>
+    <div id="comentariosNegativos"></div>
+    <div id="comentariosRegulares"></div>
+    <div id="rankingAsesores"></div>
+
+    <div class="rating-breakdown">
+
+        <div class="breakdown-row">
+            <span>⭐⭐⭐⭐⭐</span>
+            <div class="mini-bar">
+                <div class="mini-fill" style="width:78%"></div>
+            </div>
+            <span>78%</span>
+        </div>
+
+    </div>
+
     <div class="panel">
 
         <h2>
@@ -1141,28 +1011,6 @@ RATING MODERNO
         </div>
 
     </div>
-        <!-- STATUS -->
-
-
-    </div>
-
-    
-
-
-    <div id="rankingAsesores"></div>
-
-    <!--<div class="rating-breakdown">
-
-        <div class="breakdown-row">
-            <span>⭐⭐⭐⭐⭐</span>
-            <div class="mini-bar">
-                <div class="mini-fill" style="width:78%"></div>
-            </div>
-            <span>78%</span>
-        </div>
-
-    </div>-->
-
 
 
     <script>
@@ -1218,69 +1066,68 @@ RATING MODERNO
         // ======================================
         // DASHBOARD
         // ======================================
-        async function cargarPuntos() {
+async function cargarPuntos() {
 
-            const contrato =
-                document
-                    .getElementById('filtroContrato')
-                    .value
+    const contrato =
+        document
+            .getElementById('filtroContrato')
+            .value
 
-            let query = client
-                .from('respuestas')
-                .select('punto_dispensacion, contrato')
+    let query = client
+        .from('respuestas')
+        .select('punto_dispensacion, contrato')
 
-            // Si seleccionó un contrato específico
-            if (contrato !== 'todos') {
+    // Si seleccionó un contrato específico
+    if (contrato !== 'todos') {
 
-                query = query.eq(
-                    'contrato',
-                    contrato
-                )
-            }
+        query = query.eq(
+            'contrato',
+            contrato
+        )
+    }
 
-            const { data, error } =
-                await query
-                //await cargarPreguntasContrato()
+    const { data, error } =
+        await query
 
-            if (error) {
+    if (error) {
 
-                console.log(error)
-                return
-            }
+        console.log(error)
+        return
+    }
 
-            const select =
-                document.getElementById(
-                    'filtroPunto'
-                )
+    const select =
+        document.getElementById(
+            'filtroPunto'
+        )
 
-            // Limpiar select
-            select.innerHTML = `
+    // Limpiar select
+    select.innerHTML = `
         <option value="todos">
             Todos los puntos
         </option>
     `
 
-            const puntos = [
-                ...new Set(
-                    data
-                        .map(
-                            item => item.punto_dispensacion
-                        )
-                        .filter(Boolean)
+    const puntos = [
+        ...new Set(
+            data
+                .map(
+                    item => item.punto_dispensacion
                 )
-            ]
+                .filter(Boolean)
+        )
+    ]
 
-            puntos.forEach(punto => {
+    puntos.forEach(punto => {
 
-                const option =
-                    document.createElement('option')
+        const option =
+            document.createElement('option')
 
-                option.value = punto
-                option.textContent = punto
+        option.value = punto
+        option.textContent = punto
 
-                select.appendChild(option)
-            })
-        }
+        select.appendChild(option)
+    })
+}
 
         async function cargarDashboard() {
 
@@ -1313,7 +1160,7 @@ RATING MODERNO
             const puntoSeleccionado =
                 document
                     .getElementById('filtroPunto')
-                    .value
+                    .value        
 
             if (
                 contratoSeleccionado !== 'todos'
@@ -1326,26 +1173,26 @@ RATING MODERNO
             }
 
             if (
-                puntoSeleccionado !== 'todos'
+                 puntoSeleccionado !== 'todos'
             ) {
 
                 query = query.eq(
-                    'punto_dispensacion',
-                    puntoSeleccionado
+                'punto_dispensacion',
+                 puntoSeleccionado
                 )
             }
 
-            console.log(
-                'Contrato:',
-                contratoSeleccionado
-            )
+                console.log(
+                 'Contrato:',
+                  contratoSeleccionado
+                )
 
-            console.log(
-                'Punto:',
-                puntoSeleccionado
-            )
+                console.log(
+                  'Punto:',
+                   puntoSeleccionado
+                )
 
-
+        
 
             // ======================================
             // FILTRO FECHA INICIO
@@ -1372,7 +1219,6 @@ RATING MODERNO
             }
             const { data, error } =
                 await query
-                await cargarPreguntasContrato()
 
             if (error) {
 
@@ -1418,16 +1264,20 @@ RATING MODERNO
                 // PANELS
 
                 document
-                    .getElementById(
-                        'listaComentarios'
-                    )
+                    .getElementById('comentariosPositivos')
                     .innerHTML = `
-<div class="empty-state">
+    <div class="empty-state">
+    Sin comentarios positivos
+    </div>
+    `
 
-Sin comentarios registrados
-
-</div>
-`
+                document
+                    .getElementById('comentariosNegativos')
+                    .innerHTML = `
+    <div class="empty-state">
+    Sin comentarios negativos
+    </div>
+    `
 
                 document
                     .getElementById('tendenciaMensual')
@@ -1540,100 +1390,82 @@ Sin comentarios registrados
                 .innerText = positivos1 + '%'
 
             // ======================================
-            // COMENTARIOS UNIFICADOS
+            // COMENTARIOS POSITIVOS
             // ======================================
 
-            const comentarios = data
-
-                .filter(item =>
-                    item.comentario &&
-                    item.comentario.trim() !== ''
+            const positivos = data
+                .filter(
+                    item =>
+                        Number(item.calificacion) >= 4 &&
+                        item.comentario
                 )
+                .slice(-5)
 
-                .sort((a, b) =>
-                    Number(b.calificacion) -
-                    Number(a.calificacion)
-                )
+            let positivosHTML = ''
 
-            let comentariosHTML = ''
+            positivos.forEach(item => {
 
-            comentarios.forEach(item => {
+                positivosHTML += `
+        <div class="comment positive">
 
-                const estrellas =
-                    '⭐'.repeat(
-                        Number(item.calificacion)
-                    )
+            <strong>
+            ⭐⭐⭐⭐⭐ Excelente experiencia
+            </strong>
 
-                let clase = 'regular'
-                let titulo = 'Experiencia Regular'
-
-                if (Number(item.calificacion) >= 4) {
-
-                    clase = 'positive'
-                    titulo = 'Excelente experiencia'
-                }
-
-                if (Number(item.calificacion) <= 2) {
-
-                    clase = 'negative'
-                    titulo = 'Mala experiencia'
-                }
-
-                comentariosHTML += `
-
-    <div class="comentario-item ${clase}">
-
-        <div class="comentario-header">
-
-            <div>
-
-                <div class="comentario-estrellas">
-
-                    ${estrellas}
-
-                    (${item.calificacion}/5)
-
-                </div>
-
-                <div class="comentario-titulo">
-
-                    ${titulo}
-
-                </div>
-
-            </div>
-
-            <div class="comentario-fecha">
-
-                ${new Date(item.fecha)
-                        .toLocaleDateString()}
-
-            </div>
-
-        </div>
-
-        <p>
-
+            <p>
             ${item.comentario}
+            </p>
 
-        </p>
-
-        <div class="comentario-celular">
-
-            📱 ${item.celular || 'No registrado'}
+            <small class="comment-date">
+            ${new Date(item.fecha).toLocaleDateString()}
+            </small>
 
         </div>
-
-    </div>
-    `
+        `
             })
 
             document
-                .getElementById(
-                    'listaComentarios'
+                .getElementById('comentariosPositivos')
+                .innerHTML = positivosHTML
+
+            // ======================================
+            // COMENTARIOS NEGATIVOS
+            // ======================================
+
+            const comentariosNegativos = data
+                .filter(
+                    item =>
+                        Number(item.calificacion) <= 2 &&
+                        item.comentario
                 )
-                .innerHTML =
-                comentariosHTML
+                .slice(-5)
+
+            let negativosHTML = ''
+
+            comentariosNegativos.forEach(item => {
+
+                negativosHTML += `
+        <div class="comment negative">
+
+            <strong>
+            ⭐ Mala experiencia
+            </strong>
+
+            <p>
+            ${item.comentario}
+            </p>
+
+            <small class="comment-date">
+            ${new Date(item.fecha).toLocaleDateString()}
+            </small>
+
+        </div>
+        `
+            })
+
+            document
+                .getElementById('comentariosNegativos')
+                .innerHTML = negativosHTML
 
             // ======================================
             // TENDENCIA MENSUAL
@@ -2104,13 +1936,13 @@ Sin comentarios registrados
                 'change',
                 cargarDashboard
             )
-
+        
         document
             .getElementById('filtroPunto')
             .addEventListener(
-                'change',
-                cargarDashboard
-            )
+              'change',
+              cargarDashboard
+             )    
 
         // ======================================
         // INICIALIZAR
@@ -2119,164 +1951,6 @@ Sin comentarios registrados
         cargarFiltroContratos()
         cargarPuntos()
         cargarDashboard()
-
-        async function cargarPreguntasContrato(){
-
-    const contrato =
-        document
-        .getElementById(
-            'filtroContrato'
-        )
-        .value
-
-    const punto =
-        document
-        .getElementById(
-            'filtroPunto'
-        )
-        .value
-
-    const fechaInicio =
-        document
-        .getElementById(
-            'fechaInicio'
-        )
-        .value
-
-    const fechaFin =
-        document
-        .getElementById(
-            'fechaFin'
-        )
-        .value
-
-    let query =
-        client
-        .from('respuestas_detalle')
-        .select(`
-            respuesta,
-            preguntas_contrato(
-                pregunta,
-                contrato
-            ),
-            respuestas(
-                fecha,
-                punto_dispensacion
-            )
-        `)
-
-    const { data, error } =
-        await query
-
-    if(error){
-
-        console.log(error)
-
-        return
-    }
-
-    let registros = data
-
-    if(contrato !== 'todos'){
-
-        registros =
-        registros.filter(
-            item =>
-            item.preguntas_contrato?.contrato === contrato
-        )
-    }
-
-    if(punto !== 'todos'){
-
-        registros =
-        registros.filter(
-            item =>
-            item.respuestas?.punto_dispensacion === punto
-        )
-    }
-
-    if(fechaInicio){
-
-        registros =
-        registros.filter(item=>{
-
-            const fecha =
-            item.respuestas?.fecha?.substring(0,10)
-
-            return fecha >= fechaInicio
-        })
-    }
-
-    if(fechaFin){
-
-        registros =
-        registros.filter(item=>{
-
-            const fecha =
-            item.respuestas?.fecha?.substring(0,10)
-
-            return fecha <= fechaFin
-        })
-    }
-
-    let html = ''
-
-    registros.forEach(item=>{
-
-        html += `
-
-        <tr>
-
-            <td>
-
-                ${
-                    item.preguntas_contrato?.contrato || '-'
-                }
-
-            </td>
-
-            <td>
-
-                ${
-                    item.preguntas_contrato?.pregunta || '-'
-                }
-
-            </td>
-
-            <td>
-
-                ${
-                    item.respuesta || '-'
-                }
-
-            </td>
-
-        </tr>
-        `
-    })
-
-    if(registros.length === 0){
-
-        html = `
-
-        <tr>
-
-            <td colspan="3">
-
-                No hay registros
-
-            </td>
-
-        </tr>
-        `
-    }
-
-    document
-    .getElementById(
-        'preguntasContrato'
-    )
-    .innerHTML = html
-}
 
         async function exportarExcel() {
 

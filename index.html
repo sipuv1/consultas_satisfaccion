@@ -152,46 +152,99 @@
             box-shadow: 0 0 0 4px rgba(13, 71, 161, .15);
         }
 
-        .contrato-box{
 
-    background:#f5f8ff;
+        .contrato-box {
 
-    border:2px solid #dbeafe;
+            background: #f5f8ff;
 
-    padding:15px;
+            border: 2px solid #dbeafe;
 
-    border-radius:15px;
+            padding: 15px;
 
-    margin-bottom:25px;
+            border-radius: 15px;
 
-    font-size:18px;
+            margin-bottom: 25px;
 
-    color:#0d47a1;
+            font-size: 18px;
 
-    text-align:center;
+            color: #0d47a1;
 
-    font-weight:bold;
-}
+            text-align: center;
+
+            font-weight: bold;
+        }
+
+        .oculto {
+            display: none;
+        }
+
+
+        .hidden-field {
+
+            display: none;
+
+            margin-top: 20px;
+
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 18px;
+
+            border: 2px solid #dbeafe;
+
+           
+            align-items: center;
+
+        }
+
+        .hidden-field label {
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            font-weight: bold;
+
+            color: #0d47a1;
+        }
+
+        .hidden-field input {
+
+            width: 80%;
+
+            padding: 14px;
+
+            border-radius: 14px;
+
+            border: 2px solid #dbeafe;
+
+            font-size: 15px;
+        }
+
+        .hidden-field small {
+
+            display: block;
+
+            margin-top: 8px;
+
+            color: #666;
+        }
     </style>
 
 </head>
 
 <body>
 
-    <div class="contrato-box">
+    <div class="contrato-box"> Contrato: <strong id="contratoDetectado"> General </strong> <br><br> Punto de
+        dispensación: <strong id="puntoDetectado"> General </strong> </div>
 
-    Contrato:
-    <strong id="contratoDetectado">
-    General
-    </strong>
-
-</div>
 
     <div class="card">
 
         <div class="logo">
 
-            <img id="logoEmpresa" src="img/logo.png" alt="Logo ETICOS" />
+            <img id="logoEmpresa" src="/img/logo.png" alt="Logo ETICOS" />
 
         </div>
 
@@ -201,24 +254,12 @@
 
         <form id="encuestaForm">
 
+
+
+            <!-- PREGUNTAS DINAMICAS -->
+            <div id="preguntasDinamicas"></div>
+
             <div class="question">
-
-                <!--<div class="question">
-
-                    <h3>
-                        Selecciona tu Convenio o Contrato
-                    </h3>
-
-                    <select id="contrato" name="contrato" >
-
-                        <option value="">
-                            Cargando contratos...
-                        </option>
-
-                    </select>
-
-                </div>-->
-              
 
                 <h3>¿Cómo calificas la atención recibida?</h3>
 
@@ -330,11 +371,28 @@
 
             </div>
 
+
+
             <div class="question">
 
                 <h3>Déjanos un comentario</h3>
 
                 <textarea id="comentario" rows="5"></textarea>
+
+            </div>
+
+
+            <div id="contenedorCelular" class="hidden-field" style="align-items: center; text-align: center;" >
+
+                <label>
+                    Número de celular
+                </label>
+
+                <input type="tel" id="celular" placeholder="Ingresa tu número de celular">
+
+                <small>
+                    Para poder contactarte respecto a tu comentario.
+                </small>
 
             </div>
 
@@ -348,6 +406,11 @@
 
     <script>
 
+        // =========================================
+        // SUPABASE
+        // =========================================       
+
+
         const SUPABASE_URL = 'https://ouclpvprplwodgfrywqn.supabase.co'
         const SUPABASE_KEY = 'sb_publishable_mBpE0snPflgJXkaw0j9oCA_iw7x7QWI'
 
@@ -356,117 +419,424 @@
             SUPABASE_KEY
         )
 
-        async function cargarContratos() {
+        // =========================================
+        // PARAMETROS URL
+        // =========================================
 
-            const { data, error } = await client
-                .from('contratos')
-                .select('*')
-                .eq('activo', true)
-                .order('nombre')
+        const params =
+            new URLSearchParams(
+                window.location.search
+            )
+
+        // EJEMPLO:
+        // ?contrato=SURA&punto=LAURELES
+
+        const contratoURL =
+            params.get('contrato')
+
+        const puntoURL =
+            params.get('punto')
+
+        //=======================
+        // Si el contrato es xxx, mostrar pregunta opcional
+
+
+        document.getElementById(
+            'contratoDetectado'
+        ).innerText =
+            contratoURL || 'General'
+
+        cargarPreguntasDinamicas()
+
+
+        // =========================================
+        // MOSTRAR DATOS
+        // =========================================
+
+        document
+            .getElementById(
+                'contratoDetectado'
+            )
+            .innerText =
+            contratoURL || 'General'
+
+        document
+            .getElementById(
+                'puntoDetectado'
+            )
+            .innerText =
+            puntoURL || 'General'
+
+        // =========================================
+        // MOSTRAR CELULAR SI HAY COMENTARIO
+        // =========================================
+
+        const comentarioInput =
+            document.getElementById('comentario')
+
+        const contenedorCelular =
+            document.getElementById('contenedorCelular')
+
+        comentarioInput.addEventListener('input', () => {
+
+            if (comentarioInput.value.trim() !== '') {
+
+                contenedorCelular.style.display = 'block'
+
+            } else {
+
+                contenedorCelular.style.display = 'none'
+
+                document.getElementById('celular').value = ''
+            }
+        })
+
+        async function cargarPreguntasDinamicas() {
+
+
+            if (!contratoURL) return
+
+            const { data, error } =
+                await client
+                    .from('preguntas_contrato')
+                    .select('*')
+                    .eq('contrato', contratoURL)
+                    .eq('activa', true)
+                    .order('orden')
+
 
             if (error) {
 
                 console.log(error)
-
                 return
             }
 
-            const select =
-                document.getElementById('contrato')
+            const contenedor =
+                document.getElementById(
+                    'preguntasDinamicas'
+                )
 
-            select.innerHTML = `
+            contenedor.innerHTML = ''
 
-    <option value="">
-    Seleccione un contrato
-    </option>
-    `
+            data.forEach(pregunta => {
 
-            data.forEach(contrato => {
+                let html = `
 
-                select.innerHTML += `
+        <div class="question">
 
-        <option value="${contrato.nombre}">
-        ${contrato.nombre}
-        </option>
+            <h3>
+                ${pregunta.pregunta}
+            </h3>
         `
+
+                if (
+                    pregunta.tipo === 'si_no'
+                ) {
+
+                    html += `
+
+            <label class="option">
+
+                <input
+                    type="radio"
+                    name="pregunta_${pregunta.id}"
+                    value="Si">
+
+                <span>Sí</span>
+
+            </label>
+
+            <label class="option">
+
+                <input
+                    type="radio"
+                    name="pregunta_${pregunta.id}"
+                    value="No">
+
+                <span>No</span>
+
+            </label>
+            `
+                }
+
+                if (
+                    pregunta.tipo === 'texto'
+                ) {
+
+                    html += `
+
+            <textarea
+                data-id="${pregunta.id}"
+                rows="3">
+            </textarea>
+            `
+                }
+
+                html += `
+        </div>
+        `
+
+                contenedor.innerHTML += html
             })
         }
 
-        cargarContratos()
-        // =====================================
-// OBTENER CONTRATO DESDE URL
-// =====================================
+        // =========================================
+        // FORMULARIO
+        // =========================================
 
-const params =
-new URLSearchParams(
-    window.location.search
+        document
+            .getElementById('encuestaForm')
+            .addEventListener(
+                'submit',
+                async function (e) {
+
+                    e.preventDefault()
+
+                    try {
+
+                        // ============================
+                        // RESPUESTAS
+                        // ============================
+
+                        const opcional =
+                            document.querySelector(
+                                'input[name="opcional"]:checked'
+                            )?.value
+
+                        const calificacion =
+                            document.querySelector(
+                                'input[name="calificacion"]:checked'
+                            )?.value
+
+                        const tiempo =
+                            document.querySelector(
+                                'input[name="tiempo"]:checked'
+                            )?.value
+
+                        const amabilidad =
+                            document.querySelector(
+                                'input[name="amabilidad"]:checked'
+                            )?.value
+
+                        const recomendaria =
+                            document.querySelector(
+                                'input[name="recomendaria"]:checked'
+                            )?.value
+
+                        const comentario =
+                            document
+                                .getElementById('comentario')
+                                .value
+                                .trim()
+
+                        const celular =
+                            document
+                                .getElementById('celular')
+                                .value
+                                .trim()
+
+                        // ============================
+                        // VALIDACIONES
+                        // ============================
+
+                        if (
+                            !calificacion ||
+                            !tiempo ||
+                            !amabilidad ||
+                            !recomendaria
+                        ) {
+                            alert(
+                                'Debes responder todas las preguntas'
+                            )
+                            return
+                        }
+
+                        // Si escribió comentario,
+                        // celular es obligatorio
+
+                        if (
+                            comentario !== '' &&
+                            celular === ''
+                        ) {
+
+                            alert(
+                                'Si ingresas un comentario debes registrar un número de celular.'
+                            )
+
+                            document
+                                .getElementById('celular')
+                                .focus()
+
+                            return
+                        }
+
+                        // ============================
+                        // INSERTAR
+                        // ============================
+
+const { data, error } =
+    await client
+        .from('respuestas')
+        .insert([{
+
+            contrato:
+                contratoURL || 'General',
+
+            punto_dispensacion:
+                puntoURL || 'General',
+
+            calificacion:
+                Number(calificacion),
+
+            tiempo_atencion:
+                tiempo === 'true',
+
+            amabilidad:
+                amabilidad,
+
+            recomendaria:
+                recomendaria === 'true',
+
+            comentario:
+                comentario,
+
+            celular:
+                celular || null,
+
+            pregunta_opcional:
+                opcional === 'true',
+
+            fecha:
+                new Date().toISOString()
+
+        }])
+        .select()
+        .single()
+
+        if (error) {
+
+    console.log(error)
+
+    alert(
+        'Error guardando encuesta'
+    )
+
+    return
+}
+
+
+const respuestaID =
+    data.id
+
+console.log(
+    'Respuesta guardada:',
+    respuestaID
 )
 
-const contratoURL =
-params.get('contrato')
+                        const preguntas =
+                            await client
+                                .from('preguntas_contrato')
+                                .select('*')
+                                .eq('contrato', contratoURL)
+                                .eq('activa', true)
 
-// MOSTRAR CONTRATO VISUAL
+                        for (
+                            const pregunta
+                            of preguntas.data
+                        ) {
 
-if(contratoURL){
+                            let valor = ''
 
-    document
-    .getElementById('contratoDetectado')
-    .innerText =
-    contratoURL
-}
-        document
-        
-            .getElementById('encuestaForm')
+                            if (
+                                pregunta.tipo === 'texto'
+                            ) {
 
-            
-            .addEventListener('submit', async function (e) {
+                                valor =
+                                    document.querySelector(
+                                        `textarea[data-id="${pregunta.id}"]`
+                                    )?.value
+                            }
 
-                e.preventDefault()
+                            if (
+                                pregunta.tipo === 'si_no'
+                            ) {
 
-                const calificacion =
-                    document.querySelector('input[name="calificacion"]:checked').value
+                                valor =
+                                    document.querySelector(
+                                        `input[name="pregunta_${pregunta.id}"]:checked`
+                                    )?.value
+                            }
 
-                const tiempo =
-                    document.querySelector('input[name="tiempo"]:checked').value
+                            await client
+                                .from(
+                                    'respuestas_detalle'
+                                )
+                                .insert([{
 
-                const amabilidad =
-                    document.querySelector('input[name="amabilidad"]:checked').value
+                                    respuesta_id:
+                                        respuestaID,
 
-                const recomendaria =
-                    document.querySelector('input[name="recomendaria"]:checked').value
+                                    pregunta_id:
+                                        pregunta.id,
 
-                const comentario =
-                    document.getElementById('comentario').value
+                                    respuesta:
+                                        valor
 
-                const { data, error } = await client
-                    .from('respuestas')
-                    .insert([
-                        {
-                            /*contrato: document.getElementById('contrato').value,*/
-                            contrato: contratoURL || 'General',
-                            calificacion: calificacion,
-                            tiempo_atencion: tiempo === 'true',
-                            amabilidad: amabilidad,
-                            recomendaria: recomendaria === 'true',
-                            comentario: comentario,
-
+                                }])
                         }
-                    ])
 
-                if (error) {
+                        // ============================
+                        // ERROR
+                        // ============================
 
-                    alert('Error guardando información')
+                        if (error) {
 
-                    console.log(error)
+                            console.log(
+                                'ERROR SUPABASE:',
+                                error
+                            )
 
-                } else {
+                            alert(
+                                'Error guardando encuesta'
+                            )
 
-                    alert('¡Gracias por tu opinión! Recuerda que tu respuesta es anónima y nos ayuda a mejorar cada día.')
+                            return
+                        }
 
-                    document.getElementById('encuestaForm').reset()
+
+
+                        // ============================
+                        // EXITO
+                        // ============================
+
+                        alert(
+                            '¡Gracias por tu opinión! Recuerda que tu respuesta es anónima y nos ayuda a mejorar cada día.'
+                        )
+
+                        document
+                            .getElementById(
+                                'encuestaForm'
+                            )
+                            .reset()
+
+                        document
+                            .getElementById(
+                                'contenedorCelular'
+                            )
+                            .style.display = 'none'
+
+                    }
+                    catch (err) {
+
+                        console.log(err)
+
+                        alert(
+                            'Ocurrió un error inesperado'
+                        )
+                    }
                 }
+            )
 
-            })
 
     </script>
 
