@@ -97,6 +97,20 @@
             border-radius: 10px;
         }
 
+        /* Centrar y ajustar el textarea dentro del contenedor de novedad */
+        .hidden-field textarea {
+            width: 90%;
+            max-width: 720px;
+            margin: 12px auto;
+            display: block;
+            padding: 18px;
+            border-radius: 14px;
+            border: 2px solid #0d47a1;
+            background: #eef3ff;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
         .logo {
             width: 260px;
             height: 100px;
@@ -304,12 +318,12 @@
             <!--SEGUNDA PREGUNTA FIJA-->
             <div class="question">
             
-                <h3>¿Como percibiste el tiempo de espera para ser atendido?</h3>
+                <h3>¿Como calificas el tiempo que esperaste para ser atendido?</h3>
       
                 <label class="option">
                     <input type="radio" name="tiempo" value="Muy rápido" required>
                     <span>
-                        Muy rápido
+                        Muy rápido (fui atendido rapidamente)
                     </span>
                 </label>
             
@@ -337,7 +351,7 @@
                 <label class="option">
                     <input type="radio" name="tiempo" value="Muy largo" required>
                     <span>
-                        Muy largo
+                        Muy largo (esperé demasiado)
                     </span>
                 </label>
             
@@ -345,7 +359,7 @@
             <!--TERCERA PREGUNTA FIJA-->
             <div class="question">
 
-                <h3>¿Como fue la atencion brindada por nuestro personal?</h3>
+                <h3>¿Como calificas la atencion y amabilidad del personal que te atendio?</h3>
 
                 <label class="option">
                     <input type="radio" name="amabilidad" value="Excelente" required>
@@ -409,6 +423,15 @@
                         No
                     </span>
                 </label>
+
+            </div>
+
+            <!-- SI RESPUESTA ES NO O PARCIALMENTE PIDE QUE ESCRIBA QUE IMPIDIO NO RESOLVERLE-->
+            <div id="resolver_novedad_container" class="hidden-field" style="align-items: center; text-align: center;" >
+
+                <h3>¿Qué impidió resolver completamente tu necesidad?</h3>
+
+                <textarea id="resolver_novedad" rows="5" class="option" style="align-items: center; text-align: center;"></textarea>
 
             </div>
 
@@ -543,7 +566,6 @@
         //=======================
         // Si el contrato es xxx, mostrar pregunta opcional
 
-
         document.getElementById(
             'contratoDetectado'
         ).innerText =
@@ -593,6 +615,41 @@
                 document.getElementById('celular').value = ''
             }
         })
+
+                // =========================================
+        // MOSTRAR  SI HAY NECESIDAD DE RESOLVER NOVEDAD
+        // =========================================
+
+        // Mostrar/ocultar el contenedor de "resolver novedad" según la opción seleccionada
+        const resolverContainer = document.getElementById('resolver_novedad_container')
+        const resolverNovedad = document.getElementById('resolver_novedad')
+
+        function actualizarVisibilidadResolver() {
+            const solucionValor = document.querySelector('input[name="solucion"]:checked')?.value
+
+            if (!resolverContainer) return
+
+            if (solucionValor && solucionValor.toLowerCase() !== 'si') {
+                resolverContainer.style.display = 'block'
+                if (resolverNovedad) resolverNovedad.required = true
+            } else {
+                resolverContainer.style.display = 'none'
+                if (resolverNovedad) {
+                    resolverNovedad.required = false
+                    resolverNovedad.value = ''
+                }
+            }
+        }
+
+        // Asignar listeners a las opciones de "solucion" para actualizar en tiempo real
+        document.querySelectorAll('input[name="solucion"]').forEach(el => {
+            el.addEventListener('change', actualizarVisibilidadResolver)
+        })
+
+        // Ejecutar al cargar para asegurar el estado inicial correcto
+        actualizarVisibilidadResolver()
+
+
 
         async function cargarPreguntasDinamicas() {
 
@@ -724,7 +781,7 @@
                         const solucion =
                             document.querySelector(
                                 'input[name="solucion"]:checked'
-                            )?.value
+                            )?.value  
 
                         const comodidad =
                             document.querySelector(
@@ -747,6 +804,12 @@
                                 .getElementById('celular')
                                 .value
                                 .trim()
+
+                            const resolver_novedad_text =
+                                document
+                                    .getElementById('resolver_novedad')
+                                    ?.value
+                                    .trim() || ''
 
                         // ============================
                         // VALIDACIONES
@@ -785,6 +848,27 @@
                             return
                         }
 
+                        // Si la solución NO fue 'si', el campo de novedad es obligatorio
+                        if (solucion !== 'si') {
+                            const resolverValor =
+                                document
+                                    .getElementById('resolver_novedad')
+                                    ?.value
+                                    .trim() || ''
+
+                            if (resolverValor === '') {
+                                alert(
+                                    'Por favor indica qué impidió resolver completamente tu necesidad.'
+                                )
+
+                                document
+                                    .getElementById('resolver_novedad')
+                                    .focus()
+
+                                return
+                            }
+                        }
+
                         // ============================
                         // INSERTAR
                         // ============================
@@ -820,9 +904,12 @@ const { data, error } =
 
             comentario:
                 comentario,
-
+            
             celular:
                 celular || null,
+
+            resolver_novedad:
+                resolver_novedad_text || null,
 
             pregunta_opcional:
                 opcional === 'true',
@@ -945,6 +1032,8 @@ console.log(
                                 'contenedorCelular'
                             )
                             .style.display = 'none'
+
+                     
 
                     }
                     catch (err) {
